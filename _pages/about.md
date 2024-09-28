@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-I am Zhu Chaoyang, currently pursuing a Master's degree in Urban and Rural Planning at Beijing University of Technology, under the guidance of Professor Zheng Shanwen in the Ecological Cities and Sustainable Planning (ECSP) team. My research focuses on <strike>Urban Nature, Physical Activity, and Urban Big Data<strike>.
+I am Zhu Chaoyang, currently pursuing a Master's degree in Urban and Rural Planning at Beijing University of Technology, under the guidance of Professor Zheng Shanwen in the Ecological Cities and Sustainable Planning (ECSP) team. My research focuses on <ins>Urban Nature, Physical Activity, and Urban Big Data<ins>.
 
 Before entering Beijing University of Technology, I completed a five-year Bachelor's degree in Urban and Rural Planning at Nanjing Forestry University, where I studied landscape ecology and botany. During this time, I participated in a project led by Professor Fan Chenjing, applying NLP methods for classifying China's manufacturing industries. This experience enhanced my skills in acquiring and analyzing urban big data.
 
