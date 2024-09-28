@@ -13,11 +13,11 @@ Before entering Beijing University of Technology, I completed a five-year Bachel
 
 Thesis
 ======
-Master's Thesis Title:
+### Master's Thesis Title:
 
 The Impact of Urban Green Spaces on Promoting Physical Activity in Beijing's Core Area
 
-Bachelor's Thesis Title:
+### Bachelor's Thesis Title:
 
 Classification and Identification of Manufacturing Industries in Jiangsu Province Using Natural Language Processing and POI Data
 
