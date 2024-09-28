@@ -11,6 +11,16 @@ I am Zhu Chaoyang, currently pursuing a Master's degree in Urban and Rural Plann
 
 Before entering Beijing University of Technology, I completed a five-year Bachelor's degree in Urban and Rural Planning at Nanjing Forestry University, where I studied landscape ecology and botany. During this time, I participated in a project led by Professor Fan Chenjing, applying NLP methods for classifying China's manufacturing industries. This experience enhanced my skills in acquiring and analyzing urban big data.
 
+Thesis
+======
+Master's Thesis Title:
+
+The Impact of Urban Green Spaces on Promoting Physical Activity in Beijing's Core Area
+
+Bachelor's Thesis Title:
+
+Classification and Identification of Manufacturing Industries in Jiangsu Province Using Natural Language Processing and POI Data
+
 Latest Publications
 ======
 Zhu, C., Zheng, S., Yang, S., Dong, J., Ma, M., Zhang, S., . . . Han, B. (2024). Towards a Green Equal City: Measuring and matching the supply-demand of green exposure in urban center. Journal of Environmental Management, 365, 121510.
