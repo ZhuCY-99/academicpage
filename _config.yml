@@ -21,7 +21,7 @@ repository               : "academicpages/academicpages.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile.png"
+  avatar           : "profile.jpg"
   name             : "Zhu Chaoyang"
   pronouns         : # example: "she/her"  
   bio              : "A distinguished graduate with 6 publications, 3 in JCR Q1 journals, focusing on Urban Nature, Physical Activities and Urban Big Data"
