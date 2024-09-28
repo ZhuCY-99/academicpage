@@ -21,7 +21,7 @@ repository               : "academicpages/academicpages.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile.jpg"
+  avatar           : "Photo_ZCY.jpg"
   name             : "Zhu Chaoyang"
   pronouns         : # example: "she/her"  
   bio              : "A distinguished graduate with 6 publications, 3 in JCR Q1 journals, focusing on Urban Nature, Physical Activities and Urban Big Data"
@@ -43,7 +43,7 @@ author:
   bitbucket        : # Username - Update with your username on the site
   codepen          : # Username
   dribbble         : # Username
-  github           : "academicpages"
+  github           : 
   kaggle           : # Username  
   stackoverflow    : # User number or user number and name (i.e., use "1" or "1/jeff-atwood")    
 
