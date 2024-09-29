@@ -1,5 +1,5 @@
 ---
-title: "The Evolution and Driving forces of the Manufacturing Industry"
+title: "The Evolution and Driving Forces of the Manufacturing Industry"
 collection: publications
 category: manuscripts
 permalink: /publication/paper3
