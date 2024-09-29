@@ -14,14 +14,14 @@ citation: 'Zhu, C., Zheng, S., Zhen, R., Rong, Q. (2023). The Optimization of He
 
 Healthy street environment has received wide attention from multiple disciplines as an important part of healthy city development. In the context of urban renewal, records of sports tracking applications are used to study the correlation of built environmental elements in the core area of Beijing from the perspectives of individual and street. The characters of physical activities, environmental improvement methods, healthy street network optimization models are studied, and planning suggestions concerning cities at macro level, communities at intermediate level, and streets at micro level, are put forward.
 
-<br/><img src='https://brainpower233.github.io/academicpage///images/paper2Fig1.jpg'>
-Fig1. Graphical abstract
+<br/><img src='https://brainpower233.github.io/academicpage///images/paper4Fig1.jpg'>
+Fig1. Study Area and Distribution of Physical Activity
 
-<br/><img src='https://brainpower233.github.io/academicpage///images/paper2Fig2.jpg'>
-Fig2. Framework for assessing green exposure and equity
+<br/><img src='https://brainpower233.github.io/academicpage///images/paper4Fig2.jpg'>
+Fig2. Buffers from Personal or Segment Perspective
 
-<br/><img src='https://brainpower233.github.io/academicpage///images/paper2Fig3.jpg'>
-Fig3. Changes in green exposure across different walking ranges and groups
+<br/><img src='https://brainpower233.github.io/academicpage///images/paper4Fig3.jpg'>
+Fig3. Correlation Between Physical Activity Participants and Space Syntax at Different Radii from Personal Perspective
 
-<br/><img src='https://brainpower233.github.io/academicpage///images/paper2Fig4.jpg'>
-Fig4. Lorenz curve in different walking ranges and groups
+<br/><img src='https://brainpower233.github.io/academicpage///images/paper4Fig4.jpg'>
+Fig4. Correlation Between Physical Activity Participants and Space Syntax at Different Radii from Segment Perspective
