@@ -16,12 +16,23 @@ Thesis
 ======
 ### Master's Thesis
 
-The Impact of Urban Green Spaces on Promoting Physical Activity in Beijing's Core Area
+**The Impact of Urban Green Spaces on Promoting Physical Activity in the Core Area of Beijing**
+
+Explore the mechanisms by which ecological spaces in urban centers influence physical activity.
+
+Evaluate the equity of access to ecological space physical activity services across various districts in Beijing's core area.
+
+Propose methods for optimizing and enhancing the physical activity environment in ecological spaces within Beijing's core area, and estimate their effects.
 
 ### Bachelor's Thesis
 
-Classification and Identification of Manufacturing Industries in Jiangsu Province Using Natural Language Processing and POI Data
+**Classification and Identification of Manufacturing Industries in Jiangsu Province Using Natural Language Processing and POI Data**
 
+Create a manufacturing classification model using Natural Language Processing algorithms.
+
+Classify the POI data in Jiangsu Province, China, for the years 2015 and 2020.
+
+Analyze the impact of various factors on the changes in the number of different types of manufacturing enterprises.
 
 Latest Publications
 ======
