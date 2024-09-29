@@ -14,11 +14,11 @@ Before joining ECSP, I completed a five-year Bachelor's degree in Urban and Rura
 
 Thesis
 ======
-### Master's Thesis Title:
+### Master's Thesis
 
 The Impact of Urban Green Spaces on Promoting Physical Activity in Beijing's Core Area
 
-### Bachelor's Thesis Title:
+### Bachelor's Thesis
 
 Classification and Identification of Manufacturing Industries in Jiangsu Province Using Natural Language Processing and POI Data
 
