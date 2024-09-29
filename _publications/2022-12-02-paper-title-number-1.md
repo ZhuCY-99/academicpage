@@ -6,8 +6,8 @@ permalink: /publication/2022-12-02-paper-title-number-1
 excerpt: 'This paper is about the number 1. The number 2 is left for future work.'
 date: 2022-12-02
 venue: 'Scientific Data'
-slidesurl: 'http://academicpages.github.io/files/ChinaManufacturingGrid_SDATA.pdf'
-paperurl: 
+slidesurl: 
+paperurl: 'https://brainpower233.github.io//files/ChinaManufacturingGrid_SDATA.pdf'
 citation: 'Fan, C., Huang, X., Zhou, L., Gai, Z., Zhu, C., & Zhang, H. (2022). China’s Gridded Manufacturing Dataset. Scientific Data, 9(1), 742.'
 ---
 
