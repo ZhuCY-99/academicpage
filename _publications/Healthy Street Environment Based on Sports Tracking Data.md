@@ -3,7 +3,7 @@ title: "Healthy Street Environment Based on Sports Tracking Data(in Chinese)"
 collection: publications
 category: manuscripts
 permalink: /publication/paper4
-excerpt: 'Healthy street environment has received wide attention from multiple disciplines as an important part of healthy city development. In the context of urban renewal, records of sports tracking applications are used to study the correlation of built environmental elements in the core area of Beijing from the perspectives of individual and street. The characters of physical activities, environmental improvement methods, healthy street network optimization models are studied, and planning suggestions concerning cities at macro level, communities at intermediate level, and streets at micro level, are put forward.'
+excerpt: 'Healthy street environments are vital to healthy city development. Using sports tracking data in Beijing’s core area, this study examines built environment–activity correlations, proposes street network optimization models, and offers planning strategies at city, community, and street scales.'
 date: 2023-05-06
 venue: 'Planners(in Chinese)'
 slidesurl: 
@@ -14,14 +14,14 @@ citation: 'Zhu, C., Zheng, S., Zhen, R., Rong, Q. (2023). The Optimization of He
 
 Healthy street environment has received wide attention from multiple disciplines as an important part of healthy city development. In the context of urban renewal, records of sports tracking applications are used to study the correlation of built environmental elements in the core area of Beijing from the perspectives of individual and street. The characters of physical activities, environmental improvement methods, healthy street network optimization models are studied, and planning suggestions concerning cities at macro level, communities at intermediate level, and streets at micro level, are put forward.
 
-<br/><img src='https://brainpower233.github.io/academicpage///images/paper4Fig1.jpg'>
+<br/><img src='https://ZhuCY-99.github.io/academicpage///images/paper4Fig1.jpg'>
 Fig1. Study Area and Distribution of Physical Activity
 
-<br/><img src='https://brainpower233.github.io/academicpage///images/paper4Fig2.jpg'>
+<br/><img src='https://ZhuCY-99.github.io/academicpage///images/paper4Fig2.jpg'>
 Fig2. Buffers from Personal or Segment Perspective
 
-<br/><img src='https://brainpower233.github.io/academicpage///images/paper4Fig3.jpg'>
+<br/><img src='https://ZhuCY-99.github.io/academicpage///images/paper4Fig3.jpg'>
 Fig3. Correlation Between Physical Activity Participants and Space Syntax at Different Radii from Personal Perspective
 
-<br/><img src='https://brainpower233.github.io/academicpage///images/paper4Fig4.jpg'>
+<br/><img src='https://ZhuCY-99.github.io/academicpage///images/paper4Fig4.jpg'>
 Fig4. Correlation Between Physical Activity Participants and Space Syntax at Different Radii from Segment Perspective
