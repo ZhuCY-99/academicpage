@@ -7,32 +7,10 @@ redirect_from:
   - /about.html
 ---
 
-I am Zhu Chaoyang, currently pursuing a Master's degree in Urban and Rural Planning at Beijing University of Technology, under the guidance of Professor Zheng Shanwen in the Ecological Cities and Sustainable Planning (ECSP) team. My research focuses on **Urban Nature, Physical Activity, and Urban Big Data**.
+I am Zhu Chaoyang, a Ph.D. candidate in Resources and Environment at Tongji University, advised by Professor Wang Lan in the WLAN Lab. My research interests center on **urban nature, physical activity**, and the application of **urban big data**.
 
-Before joining ECSP, I completed a five-year Bachelor's degree in Urban and Rural Planning at Nanjing Forestry University, where I studied landscape ecology and botany. During this time, I participated in a project led by Professor Fan Chenjing, applying NLP methods for classifying China's manufacturing industries. This experience enhanced my skills in acquiring and analyzing urban big data.
+Prior to joining the WLAN Lab, I earned my Master’s degree in Urban Planning from Beijing University of Technology, under the supervision of Professor Shanwen Zheng, and was recognized as an Outstanding Graduate of Beijing. I received my Bachelor’s degree in Urban and Rural Planning from Nanjing Forestry University, graduating first in my cohort based on GPA.
 
-
-Thesis
-======
-### Master's Thesis
-
-**The Impact of Urban Green Spaces on Promoting Physical Activity in the Core Area of Beijing**
-
-Explore the mechanisms by which ecological spaces in urban centers influence physical activity.
-
-Evaluate the equity of access to ecological space physical activity services across various districts in Beijing's core area.
-
-Propose methods for optimizing and enhancing the physical activity environment in ecological spaces within Beijing's core area, and estimate their effects.
-
-### Bachelor's Thesis
-
-**Classification and Identification of Manufacturing Industries in Jiangsu Province Using Natural Language Processing and POI Data**
-
-Create a manufacturing classification model using Natural Language Processing algorithms.
-
-Classify the POI data in Jiangsu Province, China, for the years 2015 and 2020.
-
-Analyze the impact of various factors on the changes in the number of different types of manufacturing enterprises.
 
 
 Latest Publications
