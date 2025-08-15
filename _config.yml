@@ -12,9 +12,9 @@ title                    : "Zhu Chaoyang / Home"
 title_separator          : "-"
 name                     : &name "Zhu Chaoyang"
 description              : &description "personal description"
-url                      : "https://brainpower233.github.io/academicpage/"
+url                      : "https://ZhuCY-99.github.io/academicpage/"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
-repository               : "https://brainpower233.github.io/academicpage/"
+repository               : "https://ZhuCY-99.github.io/academicpage/"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
