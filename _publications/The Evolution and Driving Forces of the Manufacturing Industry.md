@@ -7,7 +7,7 @@ excerpt: 'This study proposes a method for classifying based on natural language
 date: 2021-08-18
 venue: 'PLOS ONE'
 slidesurl: 
-paperurl: 'https://brainpower233.github.io/academicpage/files/JiangsuManufacturing_PLOSONE.pdf'
+paperurl: 'https://ZhuCY-99.github.io/academicpage/files/JiangsuManufacturing_PLOSONE.pdf'
 citation: 'Shen, S., Zhu, C., Fan, C., Wu, C., Huang, X., & Zhou, L. (2021). Research on the evolution and driving forces of the manufacturing industry during the “13th five-year plan” period in Jiangsu province of China based on natural language processing. PLoS One, 16(8), e0256162.'
 ---
 
