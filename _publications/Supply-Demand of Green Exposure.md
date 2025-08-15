@@ -3,7 +3,7 @@ title: "Supply-Demand of Green Exposure"
 collection: publications
 category: manuscripts
 permalink: /publication/paper2
-excerpt: 'This study presented a comprehensive methodology for assessing green exposure at a fine scale utilizing satellite images for urban tree canopy identification. We conducted a case study in the core area of Beijing from 2010 to 2020 and examined the effects of urban renewal and alleviation efforts. The results revealed a slight decrease in green exposure for the elderly over the decade, with minimal changes in equity. In contrast, green exposure for children has increased, with increasing inequality. Moreover, urban renewal has improved green exposure for nearly half of the low-supply blocks. However, a significant mismatch was observed between supply and demand for blocks with increased demand but limited supply. 
+excerpt: 'This study presented a comprehensive methodology for assessing green exposure at a fine scale utilizing satellite images for urban tree canopy identification. We conducted a case study in the core area of Beijing from 2010 to 2020 and examined the effects of urban renewal and alleviation efforts. The results revealed a slight decrease in green exposure for the elderly over the decade, with minimal changes in equity. In contrast, green exposure for children has increased, with increasing inequality. Moreover, urban renewal has improved green exposure for nearly half of the low-supply blocks. However, a significant mismatch was observed between supply and demand for blocks with increased demand but limited supply.' 
 date: 2024-06-22
 venue: 'Journal of Environmental Management'
 slidesurl: 
