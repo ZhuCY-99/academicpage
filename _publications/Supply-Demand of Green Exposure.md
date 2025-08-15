@@ -20,8 +20,8 @@ Fig1. Graphical abstract
 <br/><img src='https://ZhuCY-99.github.io/academicpage///images/paper2Fig2.jpg'>
 Fig2. Framework for assessing green exposure and equity
 
-<br/><img src='https://brainpower233.github.io/academicpage///images/paper2Fig3.jpg'>
+<br/><img src='https://ZhuCY-99.github.io/academicpage///images/paper2Fig3.jpg'>
 Fig3. Changes in green exposure across different walking ranges and groups
 
-<br/><img src='https://brainpower233.github.io/academicpage///images/paper2Fig4.jpg'>
+<br/><img src='https://ZhuCY-99.github.io/academicpage///images/paper2Fig4.jpg'>
 Fig4. Lorenz curve in different walking ranges and groups
