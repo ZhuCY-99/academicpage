@@ -7,7 +7,7 @@ excerpt: 'Here, we propose a map point-of-interest classification method based o
 date: 2022-12-02
 venue: 'Scientific Data'
 slidesurl: 
-paperurl: 'https://brainpower233.github.io/academicpage/files/ChinaManufacturingGrid_SDATA.pdf'
+paperurl: 'https://ZhuCY-99.github.io/academicpage/files/ChinaManufacturingGrid_SDATA.pdf'
 citation: 'Fan, C., Huang, X., Zhou, L., Gai, Z., Zhu, C., & Zhang, H. (2022). China’s Gridded Manufacturing Dataset. Scientific Data, 9(1), 742.'
 ---
 
