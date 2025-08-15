@@ -7,7 +7,7 @@ excerpt: 'This study presented a comprehensive methodology for assessing green e
 date: 2024-06-22
 venue: 'Journal of Environmental Management'
 slidesurl: 
-paperurl: 'https://brainpower233.github.io/academicpage/files/GreenExposure_JEM.pdf'
+paperurl: 'https://ZhuCY-99.github.io/academicpage/files/GreenExposure_JEM.pdf'
 citation: 'Zhu, C., Zheng, S., Yang, S., Dong, J., Ma, M., Zhang, S., . . . Han, B. (2024). Towards a Green Equal City: Measuring and matching the supply-demand of green exposure in urban center. Journal of Environmental Management, 365, 121510.'
 ---
 
