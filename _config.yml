@@ -25,8 +25,8 @@ author:
   name             : "Zhu Chaoyang"
   pronouns         : # example: "she/her"  
   bio              : "A distinguished graduate with 6 publications, 3 in JCR Q1 journals, focusing on Urban Nature, Physical Activities and Urban Big Data"
-  location         : "Beijing, China"
-  employer         : "Beijing University of Technology"
+  location         : "Shanghai, China"
+  employer         : "Tongji University"
   uri              : # URL
   email            : "zhuchaoyang99@outlook.com" 
 
@@ -83,7 +83,7 @@ publication_category:
     title: 'Conference Papers'
 
 # Site Settings
-teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
+teaser                   : "Photo_ZCY.png" # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 breadcrumbs              : false # true, false (default)
 words_per_minute         : 160
 future                   : true
