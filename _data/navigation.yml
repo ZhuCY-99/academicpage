@@ -11,10 +11,10 @@ main:
   - title: "Portfolio"
     url: /portfolio/
 
-  - title: "Presentations"
+  - title: "Talks"
     url: /talks/
 
-  - title: "Interest"
+  - title: "Interests"
     url: /interest/
     
   - title: "CV"
