@@ -22,18 +22,35 @@ Education
 Academic Experience
 ======
 * National Natural Science Foundation of China (51908004)
-* 国家自然科学基金青年项目(51908004)
-  * 疏解背景下基于生态系统服务的城市中心区生态空间评价、规划及模拟——以北京为例
   * Evaluation, Planning, and Simulation of Ecological Spaces in Urban Cores Based on Ecosystem Services under Decentralization Contexts
     * Developed a deep learning-based method for identifying and classifying urban trees using satellite images and open-source data. This resulted in the creation of a comprehensive dataset of tree distribution in the core area of Beijing, encompassing a total of 550,283 trees.
     * Developed a refined method for evaluating green exposure using the Destination-Accessibility-Original Place framework. Evaluated the green exposure in the core area of Beijing between 2010 and 2020, and analyzed changes in green exposure equity across different age groups and walking ranges.
     * Completed two papers, one published in a Chinese journal and the other in the JEM.
 
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+
+* Academic Summer Program, Tsinghua University
+  * Measuring the Environment for Active Travel: A Systematic Review of Built Environment Audits
+    * Reviewed 164 BEA-related papers on active travel published between January 2000 and July 2024.
+    * Completed a 5,000-word English literature review, delivered a presentation, and was awarded the title of 'Outstanding Participant.'
+
+
+* Research Assistant, Research Center for Eco-Environmental Sciences, Chinese Academy of Sciences
+  * Ecosystem Assessment and Planning
+    * Received training in ecosystem services, including the calculation models and operation methods for 11 ecosystem services such as climate regulation, air purification, runoff analysis, and water self- purification in the InVEST and IUEMS platforms.
+    * Tested the UrNature app for evaluating personal mental health including 10 aspects such as depression, anxiety, sensitivity, and paranoia.
+
+
+Awards
+======
+* **First Prize, Third Position**, The 2nd Research and Innovation Competition on Eco-environmental Management for College Students
+  * Exploring the coupled transformation path and spatial planning response of urban ecosystem service assessment and residents' well-being - A case study of Beijing core area
+
+* **Second Prize, Team Leader**, Chengyuan Cup - The 7th Planning Decision Support Model Design Contest
+  * Urban Tree Data: An Eco-space Indetification, Classification, Evaluation System Based on Transfer Learning and Multi-Source Data
+
+* **Excellence Award & Popularity Award, Team Leader**, WUPENiCITY International Competition on Urban Sustainability Reports
+  * Research on Residential and Social Segregation Caused by School District Division in Nanjing
+
 
 Publications
 ======
