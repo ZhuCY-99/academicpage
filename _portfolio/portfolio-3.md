@@ -1,4 +1,3 @@
-
 ---
 title: "An Urban Ecological Space Identification, Classification, and Evaluation System Based on Transfer Learning and Multi-Source Data"
 excerpt: "This study uses deep learning and multi-source data to identify and classify urban ecological spaces. Block-level supply–demand maps of ecosystem services—considering green space, heat, and noise—support ecological optimization and urban renewal in city centers.<br/><img src='https://ZhuCY-99.github.io/academicpage/images/port3Fig0.jpg'>"
