@@ -6,14 +6,14 @@ collection: portfolio
 
 As a key destination for the decentralization of Beijing’s capital functions, Xiong’an’s rural areas face both opportunities and challenges. This plan analyzes the surrounding environment and current issues of Xinkouzi Village, and proposes a “circular” approach to address challenges related to water, industry, and daily life. By integrating information technology into smart modules, the plan envisions a more sustainable future village.
 
-<br/><img src='https://ZhuCY-99.github.io/academicpage///images/port1Fig1.jpg'>
+<br/><img src='https://ZhuCY-99.github.io/academicpage/images/port1Fig1.jpg'>
 Fig1. Background
 
-<br/><img src='https://ZhuCY-99.github.io/academicpage///images/port1Fig2.jpg'>
+<br/><img src='https://ZhuCY-99.github.io/academicpage/images/port1Fig2.jpg'>
 Fig2. Water Circulation
 
-<br/><img src='https://ZhuCY-99.github.io/academicpage///images/port1Fig3.jpg'>
+<br/><img src='https://ZhuCY-99.github.io/academicpage/images/port1Fig3.jpg'>
 Fig3. Industry Circulation
 
-<br/><img src='https://ZhuCY-99.github.io/academicpage///images/port1Fig4.jpg'>
+<br/><img src='https://ZhuCY-99.github.io/academicpage/images/port1Fig4.jpg'>
 Fig4. Living Circulation
