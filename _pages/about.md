@@ -23,10 +23,14 @@ Publications
 ======
 
 ### [Towards a Green Equal City: Measuring and matching the supply-demand of green exposure in urban center](https://zhucy-99.github.io/academicpage//publication/paper2)
-
-### [China’s Gridded Manufacturing Dataset](https://zhucy-99.github.io/academicpage//publication/paper1)
+Published in Journal of Environmental Management, 2024
 
 ### [Healthy Street Environment Based on Sports Tracking Data(in Chinese)](https://zhucy-99.github.io/academicpage//publication/paper4)
+Published in Planners(in Chinese), 2023
+
+### [China’s Gridded Manufacturing Dataset](https://zhucy-99.github.io/academicpage//publication/paper1)
+Published in Scientific Data, 2022
 
 ### [The Evolution and Driving Forces of the Manufacturing Industry](https://zhucy-99.github.io/academicpage//publication/paper3)
+Published in PLOS ONE, 2021
 
