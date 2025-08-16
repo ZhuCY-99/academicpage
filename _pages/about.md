@@ -21,5 +21,7 @@ Prior to joining the WLAN Lab, I earned my Master’s degree in Urban Planning f
 
 Publications
 ======
-  <ul>{% for post in site.publications reversed %}
-  {% endfor %}</ul>
+## Publications
+
+- [Full list of publications]({{ "/publications/" | relative_url }})
+- Selected works are listed below:
