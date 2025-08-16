@@ -3,7 +3,8 @@ title: "China’s Gridded Manufacturing Dataset"
 collection: publications
 category: manuscripts
 permalink: /publication/paper1
-excerpt: "We propose a machine learning–based POI classification method to build the Gridded Manufacturing Dataset, covering all Chinese manufacturing firms (seven categories) in 2015 (4.56M) and 2019 (6.19M) at a 0.01° grid scale. The dataset enables analysis of spatiotemporal patterns in manufacturing and the impacts of regional economic policies."
+excerpt: "We propose a machine learning–based POI classification method to build the Gridded Manufacturing Dataset, covering all Chinese manufacturing firms (seven categories) in 2015 (4.56M) and 2019 (6.19M) at a 0.01° grid scale. The dataset enables analysis of spatiotemporal patterns in manufacturing and the impacts of regional economic policies.
+<br/><img src='https://ZhuCY-99.github.io/academicpage/images/paper1Fig1.jpg'>"
 date: 2022-12-02
 venue: 'Scientific Data'
 slidesurl: 
