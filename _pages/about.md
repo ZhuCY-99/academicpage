@@ -22,5 +22,4 @@ Prior to joining the WLAN Lab, I earned my Master’s degree in Urban Planning f
 Publications
 ======
   <ul>{% for post in site.publications reversed %}
-    {% include archive-single-cv.html %}
   {% endfor %}</ul>
