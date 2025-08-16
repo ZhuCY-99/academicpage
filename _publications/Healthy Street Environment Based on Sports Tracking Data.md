@@ -4,7 +4,7 @@ collection: publications
 category: manuscripts
 permalink: /publication/paper4
 excerpt: "Healthy street environments are vital to healthy city development. Using sports tracking data in Beijing’s core area, this study examines built environment–activity correlations, proposes street network optimization models, and offers planning strategies at city, community, and street scales.
-<br/><img src='https://ZhuCY-99.github.io/academicpage///images/paper3Fig2.jpg'>"
+<br/><img src='https://ZhuCY-99.github.io/academicpage///images/paper4Fig2.jpg'>"
 date: 2023-05-06
 venue: 'Planners(in Chinese)'
 slidesurl: 
