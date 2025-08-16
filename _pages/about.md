@@ -21,6 +21,6 @@ Prior to joining the WLAN Lab, I earned my Master’s degree in Urban Planning f
 
 Publications
 ======
-## Publications
 
-[Towards a Green Equal City: Measuring and matching the supply-demand of green exposure in urban center](https://zhucy-99.github.io/academicpage//publication/paper2).
+### [Towards a Green Equal City: Measuring and matching the supply-demand of green exposure in urban center](https://zhucy-99.github.io/academicpage//publication/paper2).
+
