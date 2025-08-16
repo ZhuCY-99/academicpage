@@ -4,7 +4,7 @@ collection: publications
 category: Urban Nature, Urban Big Data
 permalink: /publication/paper2
 excerpt: "Urbanization has reduced contact with nature, creating a mismatch between green space supply and demand. Using satellite data in Beijing (2010–2020), we found declining exposure for the elderly, rising but less equal exposure for children, and persistent mismatches despite partial gains from urban renewal.
-<br/><img src='https://ZhuCY-99.github.io/academicpage///images/paper2Fig1.jpg'>" 
+<br/><img src='https://ZhuCY-99.github.io/academicpage/images/paper2Fig1.jpg'>" 
 date: 2024-06-22
 venue: 'Journal of Environmental Management'
 slidesurl: 
