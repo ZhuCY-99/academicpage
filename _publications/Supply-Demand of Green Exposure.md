@@ -1,7 +1,7 @@
 ---
 title: "Towards a Green Equal City: Measuring and matching the supply-demand of green exposure in urban center"
 collection: publications
-category: Urban Nature, Urban Big Data
+category: manuscripts
 permalink: /publication/paper2
 excerpt: "Urbanization has reduced contact with nature, creating a mismatch between green space supply and demand. Using satellite data in Beijing (2010–2020), we found declining exposure for the elderly, rising but less equal exposure for children, and persistent mismatches despite partial gains from urban renewal.
 <br/><img src='https://ZhuCY-99.github.io/academicpage/images/paper2Fig1.jpg'>" 
