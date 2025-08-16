@@ -3,7 +3,7 @@ title: "The Evolution and Driving Forces of the Manufacturing Industry"
 collection: publications
 category: manuscripts
 permalink: /publication/paper3
-excerpt: 'This study proposes a method for classifying based on natural language processing. A case study was conducted employing this method, hotspot detection and driving force analysis, wherein the driving forces industrial development during the “13th Five-Year plan” period in Jiangsu province were determined. After analyzing the driving forces of the changes in the number of manufacturing industries mentioned above, we found that manufacturing base, distance from town, population, GDP per capita, distance from the railway station were the significant driving factors of changes in the manufacturing industries mentioned above.'
+excerpt: "This study applies an NLP-based classification method with hotspot detection and driving force analysis to Jiangsu’s manufacturing during the “13th Five-Year Plan.” Results show key drivers include industrial base, proximity to towns and railways, population, and GDP per capita."
 date: 2021-08-18
 venue: 'PLOS ONE'
 slidesurl: 
