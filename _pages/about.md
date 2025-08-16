@@ -22,5 +22,11 @@ Prior to joining the WLAN Lab, I earned my Master’s degree in Urban Planning f
 Publications
 ======
 
-### [Towards a Green Equal City: Measuring and matching the supply-demand of green exposure in urban center](https://zhucy-99.github.io/academicpage//publication/paper2).
+### [Towards a Green Equal City: Measuring and matching the supply-demand of green exposure in urban center](https://zhucy-99.github.io/academicpage//publication/paper2)
+
+### [China’s Gridded Manufacturing Dataset](https://zhucy-99.github.io/academicpage//publication/paper1)
+
+### [Healthy Street Environment Based on Sports Tracking Data(in Chinese)](https://zhucy-99.github.io/academicpage//publication/paper4)
+
+### [The Evolution and Driving Forces of the Manufacturing Industry](https://zhucy-99.github.io/academicpage//publication/paper3)
 
