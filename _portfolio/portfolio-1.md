@@ -1,6 +1,6 @@
 ---
-title: "Portfolio item number 1"
-excerpt: "Short description of portfolio item number 1<br/><img src='https://ZhuCY-99.github.io/academicpage///images/port2Fig0.jpg'>"
+title: "Multidimensional Circulation: Xiong'an Xinkouzi Smart Village Planning in a Sustainable Perspective"
+excerpt: "Short description of portfolio item number 1<br/><img src='https://ZhuCY-99.github.io/academicpage/images/port1Fig0.jpg'>"
 collection: portfolio
 ---
 
