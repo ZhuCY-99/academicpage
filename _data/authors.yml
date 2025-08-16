@@ -2,7 +2,7 @@
 
 Name Name:
   name        : "ZHU Chaoyang"
-  uri         : "http://name.com"
+  uri         : "https://zhucy-99.github.io/academicpage//"
   email       : "zhuchaoyang99@outlook.com"
   bio         : #"This is the first name."
   avatar      : #"bio-photo-2.jpg"
@@ -10,9 +10,9 @@ Name Name:
   google_plus : #"Name"
 
 Name2 Name2:
-  name        : "Name2 Name2"
-  email       : "name2@name2.com"
-  bio         : "I ordered what?"
-  avatar      : "bio-photo.jpg"
-  twitter     : "name2"
-  google_plus : "Name"
+  name        : #"Name2 Name2"
+  email       : #"name2@name2.com"
+  bio         : #"I ordered what?"
+  avatar      : #"bio-photo.jpg"
+  twitter     : #"name2"
+  google_plus : #"Name"
