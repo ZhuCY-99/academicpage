@@ -8,9 +8,11 @@ redirect_from:
 ---
 
 我是祝朝阳，目前是同济大学博士研究生，师从王兰教授。我的研究兴趣包括**体力活动、城市自然与城市大数据**。
+
 （体力活动方向也是我的个人兴趣爱好之一，主要喜欢跑步与骑行）
 
 I am Zhu Chaoyang, a Ph.D. candidate in Resources and Environment at Tongji University, advised by Professor Wang Lan in the WLAN Lab. My research interests center on **urban nature, physical activity**, and the application of **urban big data**.
+
 
 在加入王兰老师的**健康城市实验室WLANLab**之前，我在南京林业大学获得了城乡规划学士学位，期间绩点排名保持专业第一，保研至北京工业大学攻读硕士学位；硕士期间我师从郑善文教授，获得北京市优秀毕业生、国家奖学金等荣誉。
 
