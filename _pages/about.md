@@ -23,5 +23,4 @@ Publications
 ======
 ## Publications
 
-- [Full list of publications]({{ "/publications/" | relative_url }})
-- Selected works are listed below:
+[Towards a Green Equal City: Measuring and matching the supply-demand of green exposure in urban center](https://zhucy-99.github.io/academicpage//publication/paper2).
