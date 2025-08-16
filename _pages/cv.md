@@ -11,30 +11,19 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
-* M.S. in Jekyll, GitHub University, 2014
-* B.S. in GitHub, GitHub University, 2012
+* 同济大学，资源与环境专业博士在读，2025-2029
+* Ph.D in Resources and Environment, Tongji University, 2025-2029 (expected)
+* 北京工业大学，城乡规划学硕士学位，2022-2025
+* M.S. in Urabn Planning, Beijing University of Technology, 2022-2025
+* 南京林业大学，城乡规划学士学位，2017-2022
+* B.S. in Urban and Rural Planning, Nanjing Forestry University, 2017-2022
 
-Work experience
+
+Academic Experience
 ======
-* Spring 2024: Academic Pages Collaborator
-  * Github University
-  * Duties includes: Updates and improvements to template
-  * Supervisor: The Users
+* National Natural Science Foundation of China (51908004)
+  * Sub-skill 2.1
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
-
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
-  
-Skills
-======
-* Skill 1
 * Skill 2
   * Sub-skill 2.1
   * Sub-skill 2.2
