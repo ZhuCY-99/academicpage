@@ -1,0 +1,28 @@
+---
+layout: page
+title: "Interest"
+permalink: /interest/
+---
+
+<h2>我的兴趣地图</h2>
+<div id="map" style="width:100%; height:600px; border:1px solid #ccc;"></div>
+
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+  // 初始化地图
+  var map = L.map('map').setView([39.9, 116.4], 11); // 北京为默认中心
+
+  // 添加 OpenStreetMap 底图
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+
+  // 添加一个标记测试
+  L.marker([39.9, 116.4]).addTo(map)
+    .bindPopup("这里是地图中心")
+    .openPopup();
+</script>
