@@ -1,0 +1,49 @@
+---
+layout: archive
+title: "Cycling Interests"
+permalink: /interest/
+author_profile: true
+---
+
+<div id="map" style="height:600px; margin-bottom:20px;"></div>
+
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Leaflet-GPX 插件 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
+
+<script>
+// 初始化地图
+var map = L.map('map').setView([39.9, 116.4], 10); // 默认北京，可改成你轨迹范围
+
+// 加载底图
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+
+// 这里列出你 /gpx/ 文件夹里的 GPX 文件
+var gpxFiles = [
+  "/gpx/20250811not_outdoor_run_class_0.gpx",
+  // 未来可以继续往这里加文件
+];
+
+// 循环加载 GPX
+gpxFiles.forEach(function(gpxFile) {
+    new L.GPX(gpxFile, {
+        async: true,
+        marker_options: { startIconUrl: '', endIconUrl: '', shadowUrl: '' }
+    }).on('loaded', function(e) {
+        var gpx = e.target;
+        gpx.bindPopup(
+            "<b>轨迹</b><br>" +
+            "距离: " + (gpx.get_distance() / 1000).toFixed(2) + " km<br>" +
+            "时间: " + (gpx.get_total_time() / 3600).toFixed(2) + " 小时<br>" +
+            "速度: " + (gpx.get_speed() * 3.6).toFixed(2) + " km/h"
+        );
+        map.fitBounds(gpx.getBounds());
+    }).addTo(map);
+});
+</script>
