@@ -1,49 +1,108 @@
----
-layout: archive
-title: "Cycling Interests"
-permalink: /interest/
-author_profile: true
----
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>骑行轨迹地图</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div id="map" style="height:600px; margin-bottom:20px;"></div>
+  <!-- Mapbox -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet" />
 
-<!-- Leaflet CSS & JS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- togeojson (GPX -> GeoJSON) -->
+  <script src="https://unpkg.com/@tmcw/togeojson@5.3.0/dist/togeojson.umd.js"></script>
 
-<!-- Leaflet-GPX 插件 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
+  <style>
+    body { margin:0; padding:0; }
+    #map { width:100%; height:100vh; }
+    .mapboxgl-popup { max-width:300px; }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
 
 <script>
-// 初始化地图
-var map = L.map('map').setView([39.9, 116.4], 10); // 默认北京，可改成你轨迹范围
+  // TODO: 替换成你自己的 Mapbox Access Token
+  mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
 
-// 加载底图
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: '© OpenStreetMap'
-}).addTo(map);
+  // 初始化地图
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v12',
+    center: [116.4074, 39.9042], // 北京为默认中心
+    zoom: 10
+  });
 
-// 这里列出你 /gpx/ 文件夹里的 GPX 文件
-var gpxFiles = [
-  "/gpx/20250811not_outdoor_run_class_0.gpx",
-  // 未来可以继续往这里加文件
-];
+  // 轨迹文件列表（你可以写死几个 GPX 文件，也可以写个 JSON 来动态维护）
+  const gpxFiles = [
+    'gpx/20250814not_outdoor_run_class_0.gpx',
+    'gpx/20250811not_outdoor_run_class_0.gpx',
+    'gpx/20250810not_outdoor_run_class_0.gpx'
+  ];
 
-// 循环加载 GPX
-gpxFiles.forEach(function(gpxFile) {
-    new L.GPX(gpxFile, {
-        async: true,
-        marker_options: { startIconUrl: '', endIconUrl: '', shadowUrl: '' }
-    }).on('loaded', function(e) {
-        var gpx = e.target;
-        gpx.bindPopup(
-            "<b>轨迹</b><br>" +
-            "距离: " + (gpx.get_distance() / 1000).toFixed(2) + " km<br>" +
-            "时间: " + (gpx.get_total_time() / 3600).toFixed(2) + " 小时<br>" +
-            "速度: " + (gpx.get_speed() * 3.6).toFixed(2) + " km/h"
-        );
-        map.fitBounds(gpx.getBounds());
-    }).addTo(map);
-});
+  // 工具函数：加载 GPX 并转为 GeoJSON
+  async function loadGpx(file, color) {
+    const res = await fetch(file);
+    const text = await res.text();
+    const xml = new DOMParser().parseFromString(text, 'text/xml');
+    const geojson = toGeoJSON.gpx(xml);
+
+    // 计算总长度
+    let totalDistance = 0;
+    let totalTime = 0;
+    const coords = geojson.features[0].geometry.coordinates;
+
+    for (let i=1; i<coords.length; i++) {
+      const [lon1, lat1] = coords[i-1];
+      const [lon2, lat2] = coords[i];
+      const R = 6371e3;
+      const φ1 = lat1 * Math.PI/180;
+      const φ2 = lat2 * Math.PI/180;
+      const Δφ = (lat2-lat1) * Math.PI/180;
+      const Δλ = (lon2-lon1) * Math.PI/180;
+      const a = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      totalDistance += R * c;
+    }
+    // 轨迹起止时间
+    const times = geojson.features[0].properties.coordTimes;
+    if (times && times.length > 1) {
+      const start = new Date(times[0]);
+      const end = new Date(times[times.length - 1]);
+      totalTime = (end - start) / 1000; // 秒
+    }
+    const avgSpeed = totalTime > 0 ? (totalDistance/1000) / (totalTime/3600) : 0;
+
+    // 添加图层
+    const id = file.replace(/\W+/g, '_');
+    map.addSource(id, { type: 'geojson', data: geojson });
+    map.addLayer({
+      id: id,
+      type: 'line',
+      source: id,
+      paint: { 'line-color': color, 'line-width': 3 }
+    });
+
+    // 点击显示 Popup
+    map.on('click', id, (e) => {
+      new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(`
+          <b>${file}</b><br>
+          距离: ${(totalDistance/1000).toFixed(2)} km<br>
+          时间: ${(totalTime/60).toFixed(1)} 分钟<br>
+          平均速度: ${avgSpeed.toFixed(2)} km/h
+        `)
+        .addTo(map);
+    });
+  }
+
+  map.on('load', () => {
+    const colors = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3'];
+    gpxFiles.forEach((f, i) => loadGpx(f, colors[i % colors.length]));
+  });
 </script>
+
+</body>
+</html>
