@@ -4,58 +4,48 @@ title: "Interest"
 permalink: /interest/
 author_profile: true
 ---
-<div id="map" style="width: 100%; height: 600px;"></div>
 
-<!-- 引入 Mapbox GL JS -->
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
-<script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
-<script src="https://unpkg.com/@mapbox/togeojson"></script>
+<div id="map" style="width:100%; height:600px; margin-bottom:20px;"></div>
+
+<!-- Leaflet CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Leaflet-GPX 插件 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
 
 <script>
-  mapboxgl.accessToken = '你的Mapbox Token';  // ⚠️换成你自己的 Mapbox Access Token
+  // 初始化地图
+  var map = L.map('map').setView([39.9, 116.4], 11); // 北京为默认中心
 
-  const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/outdoors-v12',
-    center: [116.4, 39.9],  // 默认北京
-    zoom: 10
-  });
+  // 添加 OSM 底图
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+  }).addTo(map);
 
-  // 加载 academicpage/gpx/ 文件夹下的 gpx
-  const gpxFiles = [
-    "https://zhucy-99.github.io/academicpage/gpx/20250814not_outdoor_run_class_0.gpx",
-    "https://zhucy-99.github.io/academicpage/gpx/20250811not_outdoor_run_class_0.gpx"
+  // GPX 文件列表
+  var gpxFiles = [
+    '/gpx/20241201not_outdoor_run_class_0.gpx'
+    // 后续可以继续添加新的 GPX 文件
   ];
 
-  gpxFiles.forEach(file => {
-    fetch("/academicpage/" + file)
-      .then(response => response.text())
-      .then(gpxText => {
-        const parser = new DOMParser();
-        const gpxDoc = parser.parseFromString(gpxText, "application/xml");
-        const geojson = toGeoJSON.gpx(gpxDoc);
-
-        map.on('load', () => {
-          map.addSource(file, {
-            "type": "geojson",
-            "data": geojson
-          });
-
-          map.addLayer({
-            "id": file,
-            "type": "line",
-            "source": file,
-            "layout": {
-              "line-join": "round",
-              "line-cap": "round"
-            },
-            "paint": {
-              "line-color": "#ff0000",
-              "line-width": 3
-            }
-          });
-        });
-      });
+  // 循环加载 GPX
+  gpxFiles.forEach(function(file){
+    new L.GPX(file, {
+        async: true,
+        marker_options: { startIconUrl: '', endIconUrl: '', shadowUrl: '' }
+    })
+    .on('loaded', function(e){
+        map.fitBounds(e.target.getBounds()); // 自动缩放到轨迹范围
+    })
+    .on('addline', function(e){
+        var gpx = e.target;
+        var distance = (gpx.get_distance() / 1000).toFixed(2); // km
+        var time = (gpx.get_total_time() / 3600).toFixed(2);   // 小时
+        var speed = (gpx.get_speed() * 3.6).toFixed(2);        // km/h
+        gpx.bindPopup("<b>" + file.split('/').pop() + "</b><br>距离: " + distance + " km<br>时间: " + time + " h<br>速度: " + speed + " km/h");
+    })
+    .addTo(map);
   });
 </script>
