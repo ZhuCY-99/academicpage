@@ -26,7 +26,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // 假设你把 gpx 文件都放在 /gpx/ 文件夹下
 var gpxFiles = [
-  "20241201not_outdoor_run_class_0.gpx",
+  "gpx/20241201not_outdoor_run_class_0.gpx",
   // 未来可以继续往这里加
 ];
 
