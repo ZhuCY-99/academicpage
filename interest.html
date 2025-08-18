@@ -256,9 +256,8 @@
             return filename;
         }
         
-        function getRandomColor() {
-            const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
-            return colors[Math.floor(Math.random() * colors.length)];
+        function getTrackColor() {
+            return '#e74c3c'; // 统一使用红色
         }
         
         function initMap() {
@@ -296,16 +295,17 @@
             
             gpxFiles.forEach((filename, index) => {
                 const gpxUrl = `https://zhucy-99.github.io/academicpage/gpx/${filename}`;
-                const color = getRandomColor();
+                const color = getTrackColor();
                 const displayDate = parseFileName(filename);
                 
                 try {
                     const gpx = new L.GPX(gpxUrl, {
                         async: true,
+                        parseElements: ['track', 'route'],
                         marker_options: {
-                            startIcon: null,
-                            endIcon: null,
-                            wptIcons: []
+                            startIcon: false,
+                            endIcon: false,
+                            wptIcons: false
                         },
                         polyline_options: {
                             color: color,
