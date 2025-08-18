@@ -295,20 +295,23 @@
             
             gpxFiles.forEach((filename, index) => {
                 const gpxUrl = `https://zhucy-99.github.io/academicpage/gpx/${filename}`;
-                const color = getTrackColor();
                 const displayDate = parseFileName(filename);
                 
                 try {
                     const gpx = new L.GPX(gpxUrl, {
                         async: true,
                         parseElements: ['track', 'route'],
+                        gpx_options: {
+                            parseElements: ['track', 'route']
+                        },
                         marker_options: {
-                            startIcon: false,
-                            endIcon: false,
-                            wptIcons: false
+                            startIcon: null,
+                            endIcon: null,
+                            shadowUrl: null,
+                            wptIcons: null
                         },
                         polyline_options: {
-                            color: color,
+                            color: '#e74c3c',
                             weight: 3,
                             opacity: 0.7,
                             smoothFactor: 1.0
@@ -330,7 +333,7 @@
                         // 设置弹出窗口
                         this.bindPopup(`
                             <div style="text-align: center; min-width: 200px;">
-                                <h4 style="margin: 0 0 10px 0; color: ${color};">🏃‍♂️ 跑步轨迹</h4>
+                                <h4 style="margin: 0 0 10px 0; color: #e74c3c;">🏃‍♂️ 跑步轨迹</h4>
                                 <p><strong>日期:</strong> ${displayDate}</p>
                                 <p><strong>距离:</strong> ${distance} km</p>
                                 <p><strong>用时:</strong> ${duration}</p>
