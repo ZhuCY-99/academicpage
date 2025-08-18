@@ -1,7 +1,7 @@
 ---
 title: "Exploring Factors of Green Space Accessibility Based on Space Syntax: A Case Study of Beijing’s Old City"
 collection: talks
-type: "Talk"
+type: "Academic Talk"
 permalink: /talks/talk-1
 excerpt: "This study examines street-side green spaces in Beijing’s old city as alternative high-accessibility areas when park expansion is limited. Using spatial syntax and fitness app trajectory data, we analyze how street network and environmental factors influence running and cycling route choices. Results show distinct preferences for different activities, highlighting the potential of optimizing street spaces to improve urban green accessibility.
 <br/><img src='https://ZhuCY-99.github.io/academicpage/images/talk1Fig0.jpg'>"
