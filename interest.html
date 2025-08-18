@@ -300,15 +300,13 @@
                 try {
                     const gpx = new L.GPX(gpxUrl, {
                         async: true,
-                        parseElements: ['track', 'route'],
-                        gpx_options: {
-                            parseElements: ['track', 'route']
-                        },
+                        parseElements: ['track'],
                         marker_options: {
                             startIcon: null,
                             endIcon: null,
                             shadowUrl: null,
-                            wptIcons: null
+                            wptIcons: null,
+                            pointMatchers: []
                         },
                         polyline_options: {
                             color: '#e74c3c',
@@ -321,6 +319,13 @@
                     gpx.on('loaded', function(e) {
                         successCount++;
                         loadedCount++;
+                        
+                        // 手动移除所有标记
+                        this.eachLayer(function(layer) {
+                            if (layer instanceof L.Marker) {
+                                this.removeLayer(layer);
+                            }
+                        });
                         
                         // 收集边界用于最终的地图视图调整
                         allBounds.push(e.target.getBounds());
