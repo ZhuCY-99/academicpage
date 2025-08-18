@@ -1,54 +1,189 @@
-<script>
-    let map;
-
-    function updateStatus(message, isError = false) {
-        const statusDiv = document.getElementById('status');
-        console.log(message);
-        statusDiv.innerHTML = message;
-        if (isError) {
-            statusDiv.className = 'status error';
-        } else {
-            statusDiv.className = 'status';
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的户外轨迹 - My Interests</title>
+    
+    <!-- 引入Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
         }
-    }
-
-    function initMap() {
-        updateStatus('🗺️ 正在初始化地图...');
-
-        try {
-            // 创建地图实例
-            map = L.map('map').setView([39.9042, 116.4074], 13);
-
-            // 添加OpenStreetMap图层
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            // 添加比例尺
-            L.control.scale().addTo(map);
-
-            updateStatus('✅ 基础地图加载成功！正在加载GPX轨迹...');
-
-            // 加载多条GPX文件
-            loadGPXTracks();
-
-        } catch (error) {
-            updateStatus('❌ 地图初始化失败: ' + error.message, true);
-            console.error('Map initialization error:', error);
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
         }
-    }
-
-    function loadGPXTracks() {
-        // 这里放多条GPX文件路径
-        const gpxUrls = [
-            'https://zhucy-99.github.io/academicpage/gpx/20241201not_outdoor_run_class_0.gpx',
-            'https://zhucy-99.github.io/academicpage/gpx/20250124not_outdoor_run_class_0.gpx',
-            'https://zhucy-99.github.io/academicpage/gpx/20250130not_outdoor_run_class_0.gpx'
-            // 以后你可以在这里继续加
-        ];
-
-        gpxUrls.forEach((gpxUrl, index) => {
+        
+        .header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+        
+        .map-container {
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+        
+        .info-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .status {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        .gpx-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .detail-item {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .detail-item strong {
+            color: #e74c3c;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .back-link:hover {
+            background: #2980b9;
+        }
+        
+        .error {
+            color: #e74c3c;
+            background: #fdf2f2;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #fecaca;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            #map {
+                height: 400px;
+            }
+            
+            .gpx-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏃‍♂️ 我的户外轨迹</h1>
+        <p>记录每一次奔跑的足迹</p>
+        <a href="https://zhucy-99.github.io/academicpage/" class="back-link">← 返回主页</a>
+    </div>
+    
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+    
+    <div class="info-panel">
+        <h3>轨迹信息</h3>
+        <div class="status" id="status">正在加载地图...</div>
+        <div id="gpx-details"></div>
+    </div>
+    
+    <!-- 引入Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- 引入GPX插件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
+    
+    <script>
+        let map;
+        
+        function updateStatus(message, isError = false) {
+            const statusDiv = document.getElementById('status');
+            console.log(message);
+            statusDiv.innerHTML = message;
+            if (isError) {
+                statusDiv.className = 'status error';
+            } else {
+                statusDiv.className = 'status';
+            }
+        }
+        
+        function initMap() {
+            updateStatus('🗺️ 正在初始化地图...');
+            
+            try {
+                // 创建地图实例
+                map = L.map('map').setView([39.9042, 116.4074], 13);
+                
+                // 添加OpenStreetMap图层
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                
+                // 添加比例尺
+                L.control.scale().addTo(map);
+                
+                updateStatus('✅ 基础地图加载成功！正在加载GPX轨迹...');
+                
+                // 加载GPX文件
+                loadGPXTrack();
+                
+            } catch (error) {
+                updateStatus('❌ 地图初始化失败: ' + error.message, true);
+                console.error('Map initialization error:', error);
+            }
+        }
+        
+        function loadGPXTrack() {
+            // 你的GPX文件路径
+            const gpxUrl = 'https://zhucy-99.github.io/academicpage/gpx/20241201not_outdoor_run_class_0.gpx';
+            
             try {
                 const gpx = new L.GPX(gpxUrl, {
                     async: true,
@@ -58,71 +193,127 @@
                         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
                     },
                     polyline_options: {
-                        color: ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6'][index % 4], // 多条轨迹不同颜色
+                        color: '#e74c3c',
                         weight: 4,
                         opacity: 0.8,
                         smoothFactor: 1.0
                     }
                 });
-
+                
                 gpx.on('loaded', function(e) {
                     updateStatus('🎉 GPX轨迹加载成功！');
                     
-                    // 只展示第一条的详细信息（否则会覆盖）
-                    if (index === 0) {
-                        const distance = (this.get_distance() / 1000).toFixed(2);
-                        const duration = this.get_duration_string();
-                        const elevationGain = this.get_elevation_gain().toFixed(0);
-                        const elevationMax = this.get_elevation_max().toFixed(0);
-                        const elevationMin = this.get_elevation_min().toFixed(0);
-                        const startTime = this.get_start_time();
-                        const endTime = this.get_end_time();
-                        const avgPace = distance > 0 ? (this.get_duration() / 60 / parseFloat(distance)).toFixed(2) : '未知';
-
-                        document.getElementById('gpx-details').innerHTML = `
-                            <div class="gpx-details">
-                                <div class="detail-item"><strong>📏 总距离</strong><br>${distance} 公里</div>
-                                <div class="detail-item"><strong>⏱️ 总时间</strong><br>${duration}</div>
-                                <div class="detail-item"><strong>⚡ 平均配速</strong><br>${avgPace} 分钟/公里</div>
-                                <div class="detail-item"><strong>📈 累计爬升</strong><br>${elevationGain} 米</div>
-                                <div class="detail-item"><strong>🏔️ 最高海拔</strong><br>${elevationMax} 米</div>
-                                <div class="detail-item"><strong>🏞️ 最低海拔</strong><br>${elevationMin} 米</div>
+                    // 获取轨迹统计信息
+                    const distance = (this.get_distance() / 1000).toFixed(2);
+                    const duration = this.get_duration_string();
+                    const elevationGain = this.get_elevation_gain().toFixed(0);
+                    const elevationMax = this.get_elevation_max().toFixed(0);
+                    const elevationMin = this.get_elevation_min().toFixed(0);
+                    const startTime = this.get_start_time();
+                    const endTime = this.get_end_time();
+                    
+                    // 计算平均配速
+                    const avgPace = distance > 0 ? (this.get_duration() / 60 / parseFloat(distance)).toFixed(2) : '未知';
+                    
+                    // 显示详细信息
+                    document.getElementById('gpx-details').innerHTML = `
+                        <div class="gpx-details">
+                            <div class="detail-item">
+                                <strong>📏 总距离</strong><br>
+                                ${distance} 公里
                             </div>
-                            <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 5px;">
-                                <strong>🕐 活动时间:</strong><br>
-                                开始: ${startTime ? new Date(startTime).toLocaleString('zh-CN') : '未记录'}<br>
-                                结束: ${endTime ? new Date(endTime).toLocaleString('zh-CN') : '未记录'}
+                            <div class="detail-item">
+                                <strong>⏱️ 总时间</strong><br>
+                                ${duration}
                             </div>
-                        `;
-                    }
-
-                    // 调整地图视图以包含轨迹
+                            <div class="detail-item">
+                                <strong>⚡ 平均配速</strong><br>
+                                ${avgPace} 分钟/公里
+                            </div>
+                            <div class="detail-item">
+                                <strong>📈 累计爬升</strong><br>
+                                ${elevationGain} 米
+                            </div>
+                            <div class="detail-item">
+                                <strong>🏔️ 最高海拔</strong><br>
+                                ${elevationMax} 米
+                            </div>
+                            <div class="detail-item">
+                                <strong>🏞️ 最低海拔</strong><br>
+                                ${elevationMin} 米
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 5px;">
+                            <strong>🕐 活动时间:</strong><br>
+                            开始: ${startTime ? new Date(startTime).toLocaleString('zh-CN') : '未记录'}<br>
+                            结束: ${endTime ? new Date(endTime).toLocaleString('zh-CN') : '未记录'}
+                        </div>
+                    `;
+                    
+                    // 调整地图视图到轨迹范围
                     map.fitBounds(e.target.getBounds(), {
                         padding: [20, 20]
                     });
-
-                    this.bindPopup(`<div style="text-align: center; min-width: 200px;">
-                        <h4 style="margin: 0 0 10px 0;">🏃‍♂️ 轨迹 ${index + 1}</h4>
-                        <p><strong>距离:</strong> ${(this.get_distance() / 1000).toFixed(2)} km</p>
-                        <p><strong>用时:</strong> ${this.get_duration_string()}</p>
-                    </div>`);
+                    
+                    // 为轨迹添加弹出窗口
+                    this.bindPopup(`
+                        <div style="text-align: center; min-width: 200px;">
+                            <h4 style="margin: 0 0 10px 0; color: #e74c3c;">🏃‍♂️ 户外跑步</h4>
+                            <p><strong>距离:</strong> ${distance} km</p>
+                            <p><strong>用时:</strong> ${duration}</p>
+                            <p><strong>平均配速:</strong> ${avgPace} min/km</p>
+                            <p style="font-size: 0.9em; color: #666;">点击轨迹查看详情</p>
+                        </div>
+                    `);
                 });
-
+                
                 gpx.on('error', function(e) {
-                    updateStatus('❌ GPX文件加载失败: ' + gpxUrl, true);
+                    updateStatus('❌ GPX文件加载失败', true);
                     console.error('GPX loading error:', e);
+                    
+                    document.getElementById('gpx-details').innerHTML = `
+                        <div class="error">
+                            <h4>GPX文件加载失败</h4>
+                            <p><strong>文件路径:</strong><br>
+                            <code>${gpxUrl}</code></p>
+                            
+                            <h5>可能的原因：</h5>
+                            <ul>
+                                <li><strong>CORS跨域限制:</strong> GitHub Pages可能限制了跨域文件访问</li>
+                                <li><strong>文件格式问题:</strong> GPX文件可能格式不正确</li>
+                                <li><strong>文件损坏:</strong> 文件在上传过程中可能出现问题</li>
+                            </ul>
+                            
+                            <h5>解决建议：</h5>
+                            <ul>
+                                <li>检查GPX文件格式是否正确</li>
+                                <li>尝试重新上传GPX文件</li>
+                                <li>查看浏览器开发者工具的Console和Network标签页</li>
+                            </ul>
+                        </div>
+                    `;
                 });
-
+                
                 gpx.addTo(map);
+                
             } catch (error) {
                 updateStatus('❌ GPX处理出错: ' + error.message, true);
                 console.error('GPX processing error:', error);
             }
+        }
+        
+        // 页面加载完成后初始化地图
+        window.addEventListener('load', function() {
+            // 稍微延迟以确保所有资源加载完成
+            setTimeout(initMap, 500);
         });
-    }
-
-    // 页面加载完成后初始化地图
-    window.addEventListener('load', function() {
-        setTimeout(initMap, 500);
-    });
-</script>
+        
+        // 备用初始化方法
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.readyState === 'complete') {
+                setTimeout(initMap, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
