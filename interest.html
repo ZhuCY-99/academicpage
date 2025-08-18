@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的户外轨迹 - My Running Tracks</title>
+    <title>我的户外轨迹 - My Interests</title>
     
     <!-- 引入Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -13,7 +13,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             background: #fff;
@@ -36,49 +36,6 @@
             font-size: 1.1em;
         }
         
-        .controls {
-            margin: 20px 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .control-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        
-        .toggle-btn {
-            padding: 8px 16px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .toggle-btn:hover {
-            background: #2980b9;
-        }
-        
-        .toggle-btn.active {
-            background: #e74c3c;
-        }
-        
-        select {
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: white;
-        }
-        
         .map-container {
             margin: 20px 0;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -87,7 +44,7 @@
         }
         
         #map {
-            height: 600px;
+            height: 500px;
             width: 100%;
         }
         
@@ -102,69 +59,6 @@
         .status {
             font-weight: 500;
             color: #2c3e50;
-            margin-bottom: 15px;
-        }
-        
-        .summary-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .stat-item {
-            background: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .stat-item .value {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #e74c3c;
-            display: block;
-        }
-        
-        .stat-item .label {
-            color: #666;
-            font-size: 0.9em;
-        }
-        
-        .track-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-top: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        
-        .track-item {
-            padding: 10px 15px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .track-item:hover {
-            background: #f5f5f5;
-        }
-        
-        .track-item.selected {
-            background: #e3f2fd;
-            border-left: 4px solid #2196f3;
-        }
-        
-        .track-item .date {
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        .track-item .details {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 5px;
         }
         
         .back-link {
@@ -182,39 +76,12 @@
             background: #2980b9;
         }
         
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-        }
-        
         .error {
             color: #e74c3c;
             background: #fdf2f2;
             padding: 15px;
             border-radius: 5px;
             border: 1px solid #fecaca;
-        }
-        
-        .legend {
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-top: 10px;
-        }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            margin: 5px 0;
-        }
-        
-        .legend-color {
-            width: 20px;
-            height: 3px;
-            margin-right: 8px;
-            border-radius: 2px;
         }
         
         @media (max-width: 768px) {
@@ -224,14 +91,6 @@
             
             #map {
                 height: 400px;
-            }
-            
-            .controls {
-                flex-direction: column;
-            }
-            
-            .summary-stats {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -243,69 +102,13 @@
         <a href="https://zhucy-99.github.io/academicpage/" class="back-link">← 返回主页</a>
     </div>
     
-    <div class="controls">
-        <div class="control-group">
-            <label for="monthFilter">月份筛选:</label>
-            <select id="monthFilter">
-                <option value="">所有月份</option>
-            </select>
-        </div>
-        <div class="control-group">
-            <label for="typeFilter">类型筛选:</label>
-            <select id="typeFilter">
-                <option value="">所有类型</option>
-                <option value="outdoor">户外跑步</option>
-                <option value="not_outdoor">室内跑步</option>
-            </select>
-        </div>
-        <div class="control-group">
-            <button id="toggleAll" class="toggle-btn">隐藏所有轨迹</button>
-            <button id="resetView" class="toggle-btn">重置视图</button>
-        </div>
-    </div>
-    
     <div class="map-container">
         <div id="map"></div>
     </div>
     
     <div class="info-panel">
-        <h3>轨迹统计</h3>
+        <h3>轨迹信息</h3>
         <div class="status" id="status">正在加载地图...</div>
-        
-        <div class="summary-stats" id="summary-stats">
-            <div class="stat-item">
-                <span class="value" id="total-tracks">-</span>
-                <span class="label">总轨迹数</span>
-            </div>
-            <div class="stat-item">
-                <span class="value" id="total-distance">-</span>
-                <span class="label">总距离 (km)</span>
-            </div>
-            <div class="stat-item">
-                <span class="value" id="total-time">-</span>
-                <span class="label">总时间</span>
-            </div>
-            <div class="stat-item">
-                <span class="value" id="avg-pace">-</span>
-                <span class="label">平均配速 (min/km)</span>
-            </div>
-        </div>
-        
-        <div class="legend">
-            <h4>图例</h4>
-            <div class="legend-item">
-                <div class="legend-color" style="background: #e74c3c;"></div>
-                <span>室内跑步</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: #27ae60;"></div>
-                <span>户外跑步</span>
-            </div>
-        </div>
-        
-        <div class="track-list" id="track-list">
-            <div class="loading">正在加载轨迹列表...</div>
-        </div>
     </div>
     
     <!-- 引入Leaflet JavaScript -->
@@ -315,9 +118,7 @@
     
     <script>
         let map;
-        let gpxTracks = [];
-        let allTrackData = [];
-        let visibleTracks = new Set();
+        let allBounds = [];
         
         // GPX文件列表
         const gpxFiles = [
@@ -444,32 +245,20 @@
         }
         
         function parseFileName(filename) {
-            const match = filename.match(/(\d{8})(outdoor|not_outdoor)_run_class_(\d+)\.gpx/);
+            const match = filename.match(/(\d{8})/);
             if (match) {
                 const date = match[1];
-                const type = match[2];
-                const classNum = match[3];
-                
                 const year = date.substring(0, 4);
                 const month = date.substring(4, 6);
                 const day = date.substring(6, 8);
-                
-                return {
-                    filename,
-                    date: `${year}-${month}-${day}`,
-                    year,
-                    month,
-                    day,
-                    type,
-                    classNum,
-                    isOutdoor: type === 'outdoor'
-                };
+                return `${year}-${month}-${day}`;
             }
-            return null;
+            return filename;
         }
         
-        function getTrackColor(trackInfo) {
-            return trackInfo.isOutdoor ? '#27ae60' : '#e74c3c';
+        function getRandomColor() {
+            const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
+            return colors[Math.floor(Math.random() * colors.length)];
         }
         
         function initMap() {
@@ -490,9 +279,6 @@
                 
                 updateStatus('✅ 基础地图加载成功！正在加载GPX轨迹...');
                 
-                // 初始化筛选器
-                initFilters();
-                
                 // 加载所有GPX文件
                 loadAllGPXTracks();
                 
@@ -502,55 +288,22 @@
             }
         }
         
-        function initFilters() {
-            // 生成月份选项
-            const months = new Set();
-            gpxFiles.forEach(filename => {
-                const info = parseFileName(filename);
-                if (info) {
-                    months.add(`${info.year}-${info.month}`);
-                }
-            });
-            
-            const monthFilter = document.getElementById('monthFilter');
-            Array.from(months).sort().forEach(month => {
-                const option = document.createElement('option');
-                option.value = month;
-                option.textContent = month;
-                monthFilter.appendChild(option);
-            });
-            
-            // 绑定筛选器事件
-            document.getElementById('monthFilter').addEventListener('change', applyFilters);
-            document.getElementById('typeFilter').addEventListener('change', applyFilters);
-            document.getElementById('toggleAll').addEventListener('click', toggleAllTracks);
-            document.getElementById('resetView').addEventListener('click', resetMapView);
-        }
-        
         function loadAllGPXTracks() {
             let loadedCount = 0;
             let successCount = 0;
-            let allBounds = [];
             
             updateStatus(`📥 开始加载 ${gpxFiles.length} 条轨迹...`);
             
             gpxFiles.forEach((filename, index) => {
-                const trackInfo = parseFileName(filename);
-                if (!trackInfo) {
-                    loadedCount++;
-                    return;
-                }
-                
                 const gpxUrl = `https://zhucy-99.github.io/academicpage/gpx/${filename}`;
-                const color = getTrackColor(trackInfo);
+                const color = getRandomColor();
+                const displayDate = parseFileName(filename);
                 
                 try {
                     const gpx = new L.GPX(gpxUrl, {
                         async: true,
                         marker_options: {
-                            startIconUrl: trackInfo.isOutdoor ? 
-                                'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-green.png' :
-                                'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+                            startIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-green.png',
                             endIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
                             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
                         },
@@ -566,46 +319,31 @@
                         successCount++;
                         loadedCount++;
                         
-                        // 存储轨迹数据
-                        const distance = (this.get_distance() / 1000);
-                        const duration = this.get_duration();
-                        const trackData = {
-                            gpx: this,
-                            info: trackInfo,
-                            distance: distance,
-                            duration: duration,
-                            bounds: e.target.getBounds()
-                        };
-                        
-                        allTrackData.push(trackData);
-                        gpxTracks.push(this);
-                        visibleTracks.add(trackData);
-                        
                         // 收集边界用于最终的地图视图调整
                         allBounds.push(e.target.getBounds());
                         
-                        // 设置弹出窗口
-                        const avgPace = distance > 0 ? (duration / 60 / distance).toFixed(2) : '未知';
-                        const durationStr = this.get_duration_string();
+                        // 获取轨迹统计信息
+                        const distance = (this.get_distance() / 1000).toFixed(2);
+                        const duration = this.get_duration_string();
+                        const avgPace = distance > 0 ? (this.get_duration() / 60 / parseFloat(distance)).toFixed(2) : '未知';
                         
+                        // 设置弹出窗口
                         this.bindPopup(`
                             <div style="text-align: center; min-width: 200px;">
-                                <h4 style="margin: 0 0 10px 0; color: ${color};">
-                                    ${trackInfo.isOutdoor ? '🌲' : '🏠'} ${trackInfo.isOutdoor ? '户外' : '室内'}跑步
-                                </h4>
-                                <p><strong>日期:</strong> ${trackData.info.date}</p>
-                                <p><strong>距离:</strong> ${distance.toFixed(2)} km</p>
-                                <p><strong>用时:</strong> ${durationStr}</p>
+                                <h4 style="margin: 0 0 10px 0; color: ${color};">🏃‍♂️ 跑步轨迹</h4>
+                                <p><strong>日期:</strong> ${displayDate}</p>
+                                <p><strong>距离:</strong> ${distance} km</p>
+                                <p><strong>用时:</strong> ${duration}</p>
                                 <p><strong>配速:</strong> ${avgPace} min/km</p>
                             </div>
                         `);
                         
                         // 更新进度
-                        updateStatus(`📊 已加载 ${successCount}/${gpxFiles.length} 条轨迹 (${loadedCount}/${gpxFiles.length} 完成)`);
+                        updateStatus(`📊 已加载 ${successCount}/${gpxFiles.length} 条轨迹`);
                         
                         // 如果是最后一个文件加载完成
                         if (loadedCount === gpxFiles.length) {
-                            finishLoading(allBounds);
+                            finishLoading();
                         }
                     });
                     
@@ -613,10 +351,10 @@
                         loadedCount++;
                         console.error(`Failed to load ${filename}:`, e);
                         
-                        updateStatus(`⚠️ 已加载 ${successCount}/${gpxFiles.length} 条轨迹 (${loadedCount}/${gpxFiles.length} 完成)`);
+                        updateStatus(`⚠️ 已处理 ${loadedCount}/${gpxFiles.length} 个文件，成功 ${successCount} 条`);
                         
                         if (loadedCount === gpxFiles.length) {
-                            finishLoading(allBounds);
+                            finishLoading();
                         }
                     });
                     
@@ -627,14 +365,14 @@
                     console.error(`Error processing ${filename}:`, error);
                     
                     if (loadedCount === gpxFiles.length) {
-                        finishLoading(allBounds);
+                        finishLoading();
                     }
                 }
             });
         }
         
-        function finishLoading(allBounds) {
-            updateStatus(`🎉 加载完成！成功加载了 ${allTrackData.length} 条轨迹`);
+        function finishLoading() {
+            updateStatus(`🎉 加载完成！成功显示了 ${allBounds.length} 条轨迹`);
             
             // 调整地图视图到所有轨迹
             if (allBounds.length > 0) {
@@ -645,76 +383,19 @@
                 map.fitBounds(group.getBounds(), { padding: [20, 20] });
                 group.clearLayers();
             }
-            
-            // 更新统计信息
-            updateSummaryStats();
-            
-            // 生成轨迹列表
-            generateTrackList();
         }
         
-        function updateSummaryStats() {
-            const visibleData = Array.from(visibleTracks);
-            
-            const totalTracks = visibleData.length;
-            const totalDistance = visibleData.reduce((sum, track) => sum + track.distance, 0);
-            const totalTime = visibleData.reduce((sum, track) => sum + track.duration, 0);
-            const avgPace = totalDistance > 0 ? (totalTime / 60 / totalDistance) : 0;
-            
-            document.getElementById('total-tracks').textContent = totalTracks;
-            document.getElementById('total-distance').textContent = totalDistance.toFixed(1);
-            document.getElementById('total-time').textContent = formatDuration(totalTime);
-            document.getElementById('avg-pace').textContent = avgPace > 0 ? avgPace.toFixed(2) : '-';
-        }
+        // 页面加载完成后初始化地图
+        window.addEventListener('load', function() {
+            setTimeout(initMap, 500);
+        });
         
-        function formatDuration(seconds) {
-            const hours = Math.floor(seconds / 3600);
-            const minutes = Math.floor((seconds % 3600) / 60);
-            if (hours > 0) {
-                return `${hours}小时${minutes}分钟`;
+        // 备用初始化方法
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.readyState === 'complete') {
+                setTimeout(initMap, 1000);
             }
-            return `${minutes}分钟`;
-        }
-        
-        function generateTrackList() {
-            const trackList = document.getElementById('track-list');
-            
-            // 按日期排序
-            const sortedTracks = allTrackData.sort((a, b) => b.info.date.localeCompare(a.info.date));
-            
-            trackList.innerHTML = '';
-            
-            sortedTracks.forEach(trackData => {
-                const trackItem = document.createElement('div');
-                trackItem.className = 'track-item';
-                trackItem.dataset.trackId = trackData.info.filename;
-                
-                const typeIcon = trackData.info.isOutdoor ? '🌲' : '🏠';
-                const typeText = trackData.info.isOutdoor ? '户外' : '室内';
-                
-                trackItem.innerHTML = `
-                    <div class="date">${typeIcon} ${trackData.info.date} - ${typeText}跑步</div>
-                    <div class="details">
-                        距离: ${trackData.distance.toFixed(2)}km | 
-                        用时: ${formatDuration(trackData.duration)} | 
-                        配速: ${trackData.distance > 0 ? (trackData.duration / 60 / trackData.distance).toFixed(2) : '-'} min/km
-                    </div>
-                `;
-                
-                trackItem.addEventListener('click', () => {
-                    // 移除其他选中状态
-                    document.querySelectorAll('.track-item').forEach(item => {
-                        item.classList.remove('selected');
-                    });
-                    
-                    // 添加选中状态
-                    trackItem.classList.add('selected');
-                    
-                    // 聚焦到该轨迹
-                    map.fitBounds(trackData.bounds, { padding: [20, 20] });
-                    
-                    // 打开弹出窗口
-                    trackData.gpx.openPopup();
-                });
-                
-                trackList.appendChild(trackItem);
+        });
+    </script>
+</body>
+</html>
