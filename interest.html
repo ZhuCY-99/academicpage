@@ -44,7 +44,7 @@
         }
         
         #map {
-            height: 500px;
+            height: 600px;
             width: 100%;
         }
         
@@ -59,24 +59,70 @@
         .status {
             font-weight: 500;
             color: #2c3e50;
+            margin-bottom: 15px;
         }
         
-        .gpx-details {
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #e74c3c, #f39c12);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .summary-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
         
-        .detail-item {
+        .stat-item {
             background: white;
             padding: 15px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
         }
         
-        .detail-item strong {
+        .stat-item strong {
             color: #e74c3c;
+            font-size: 1.2em;
+        }
+        
+        .legend {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .color-bar {
+            height: 20px;
+            background: linear-gradient(90deg, 
+                #2E86AB 0%, 
+                #A23B72 25%, 
+                #F18F01 50%, 
+                #C73E1D 75%, 
+                #8B0000 100%);
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
+        .color-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
         }
         
         .back-link {
@@ -100,6 +146,7 @@
             padding: 15px;
             border-radius: 5px;
             border: 1px solid #fecaca;
+            margin: 10px 0;
         }
         
         @media (max-width: 768px) {
@@ -111,7 +158,7 @@
                 height: 400px;
             }
             
-            .gpx-details {
+            .summary-stats {
                 grid-template-columns: 1fr;
             }
         }
@@ -131,7 +178,23 @@
     <div class="info-panel">
         <h3>轨迹信息</h3>
         <div class="status" id="status">正在加载地图...</div>
-        <div id="gpx-details"></div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+        <div id="loading-details"></div>
+        
+        <div class="legend" id="legend" style="display: none;">
+            <h4>🎨 轨迹颜色说明</h4>
+            <p>颜色根据轨迹长度进行渐变：</p>
+            <div class="color-bar"></div>
+            <div class="color-labels">
+                <span>短距离</span>
+                <span>中等距离</span>
+                <span>长距离</span>
+            </div>
+        </div>
+        
+        <div id="summary-stats"></div>
     </div>
     
     <!-- 引入Leaflet JavaScript -->
@@ -141,6 +204,121 @@
     
     <script>
         let map;
+        let allTracks = [];
+        let trackGroup;
+        
+        // GPX文件列表
+        const gpxFiles = [
+            '20241201not_outdoor_run_class_0.gpx',
+            '20250124not_outdoor_run_class_0.gpx',
+            '20250130not_outdoor_run_class_0.gpx',
+            '20250306not_outdoor_run_class_0.gpx',
+            '20250307not_outdoor_run_class_0.gpx',
+            '20250308not_outdoor_run_class_0.gpx',
+            '20250309not_outdoor_run_class_0.gpx',
+            '20250310not_outdoor_run_class_0.gpx',
+            '20250310not_outdoor_run_class_1.gpx',
+            '20250311not_outdoor_run_class_0.gpx',
+            '20250312not_outdoor_run_class_0.gpx',
+            '20250316not_outdoor_run_class_0.gpx',
+            '20250317not_outdoor_run_class_0.gpx',
+            '20250318not_outdoor_run_class_0.gpx',
+            '20250318not_outdoor_run_class_1.gpx',
+            '20250319not_outdoor_run_class_0.gpx',
+            '20250320not_outdoor_run_class_0.gpx',
+            '20250320not_outdoor_run_class_1.gpx',
+            '20250321not_outdoor_run_class_0.gpx',
+            '20250322not_outdoor_run_class_0.gpx',
+            '20250323not_outdoor_run_class_0.gpx',
+            '20250324not_outdoor_run_class_0.gpx',
+            '20250325not_outdoor_run_class_0.gpx',
+            '20250325not_outdoor_run_class_1.gpx',
+            '20250326not_outdoor_run_class_0.gpx',
+            '20250327not_outdoor_run_class_0.gpx',
+            '20250328not_outdoor_run_class_0.gpx',
+            '20250329not_outdoor_run_class_0.gpx',
+            '20250330not_outdoor_run_class_0.gpx',
+            '20250331outdoor_run_class_0.gpx',
+            '20250331outdoor_run_class_1.gpx',
+            '20250401not_outdoor_run_class_0.gpx',
+            '20250402not_outdoor_run_class_0.gpx',
+            '20250403not_outdoor_run_class_0.gpx',
+            '20250404not_outdoor_run_class_0.gpx',
+            '20250406not_outdoor_run_class_0.gpx',
+            '20250407not_outdoor_run_class_0.gpx',
+            '20250408not_outdoor_run_class_0.gpx',
+            '20250409not_outdoor_run_class_0.gpx',
+            '20250410not_outdoor_run_class_0.gpx',
+            '20250411not_outdoor_run_class_0.gpx',
+            '20250414not_outdoor_run_class_0.gpx',
+            '20250416not_outdoor_run_class_0.gpx',
+            '20250416not_outdoor_run_class_1.gpx',
+            '20250417not_outdoor_run_class_0.gpx',
+            '20250419not_outdoor_run_class_0.gpx',
+            '20250424not_outdoor_run_class_0.gpx',
+            '20250425not_outdoor_run_class_0.gpx',
+            '20250425not_outdoor_run_class_1.gpx',
+            '20250426not_outdoor_run_class_0.gpx',
+            '20250427not_outdoor_run_class_0.gpx',
+            '20250428not_outdoor_run_class_0.gpx',
+            '20250429not_outdoor_run_class_0.gpx',
+            '20250430not_outdoor_run_class_0.gpx',
+            '20250501not_outdoor_run_class_0.gpx',
+            '20250502not_outdoor_run_class_0.gpx',
+            '20250503not_outdoor_run_class_0.gpx',
+            '20250504not_outdoor_run_class_0.gpx',
+            '20250507not_outdoor_run_class_0.gpx',
+            '20250508not_outdoor_run_class_0.gpx',
+            '20250517not_outdoor_run_class_0.gpx',
+            '20250517not_outdoor_run_class_1.gpx',
+            '20250518not_outdoor_run_class_0.gpx',
+            '20250523not_outdoor_run_class_0.gpx',
+            '20250523not_outdoor_run_class_1.gpx',
+            '20250523not_outdoor_run_class_2.gpx',
+            '20250526not_outdoor_run_class_0.gpx',
+            '20250531not_outdoor_run_class_0.gpx',
+            '20250531not_outdoor_run_class_1.gpx',
+            '20250531not_outdoor_run_class_2.gpx',
+            '20250531not_outdoor_run_class_3.gpx',
+            '20250601not_outdoor_run_class_0.gpx',
+            '20250601not_outdoor_run_class_1.gpx',
+            '20250602not_outdoor_run_class_0.gpx',
+            '20250607outdoor_run_class_0.gpx',
+            '20250611not_outdoor_run_class_0.gpx',
+            '20250615not_outdoor_run_class_0.gpx',
+            '20250615not_outdoor_run_class_1.gpx',
+            '20250623not_outdoor_run_class_0.gpx',
+            '20250623not_outdoor_run_class_1.gpx',
+            '20250624not_outdoor_run_class_0.gpx',
+            '20250625not_outdoor_run_class_0.gpx',
+            '20250628not_outdoor_run_class_0.gpx',
+            '20250701not_outdoor_run_class_0.gpx',
+            '20250702not_outdoor_run_class_0.gpx',
+            '20250703not_outdoor_run_class_0.gpx',
+            '20250705not_outdoor_run_class_0.gpx',
+            '20250706not_outdoor_run_class_0.gpx',
+            '20250707not_outdoor_run_class_0.gpx',
+            '20250707not_outdoor_run_class_1.gpx',
+            '20250709not_outdoor_run_class_0.gpx',
+            '20250710not_outdoor_run_class_0.gpx',
+            '20250711not_outdoor_run_class_0.gpx',
+            '20250713not_outdoor_run_class_0.gpx',
+            '20250714not_outdoor_run_class_0.gpx',
+            '20250716not_outdoor_run_class_0.gpx',
+            '20250719not_outdoor_run_class_0.gpx',
+            '20250720not_outdoor_run_class_0.gpx',
+            '20250723not_outdoor_run_class_0.gpx',
+            '20250725not_outdoor_run_class_0.gpx',
+            '20250727outdoor_run_class_0.gpx',
+            '20250731not_outdoor_run_class_0.gpx',
+            '20250801not_outdoor_run_class_0.gpx',
+            '20250804not_outdoor_run_class_0.gpx',
+            '20250804not_outdoor_run_class_1.gpx',
+            '20250810not_outdoor_run_class_0.gpx',
+            '20250810not_outdoor_run_class_1.gpx',
+            '20250811not_outdoor_run_class_0.gpx',
+            '20250814not_outdoor_run_class_0.gpx'
+        ];
         
         function updateStatus(message, isError = false) {
             const statusDiv = document.getElementById('status');
@@ -153,6 +331,47 @@
             }
         }
         
+        function updateProgress(current, total) {
+            const progressBar = document.getElementById('progress');
+            const percentage = (current / total) * 100;
+            progressBar.style.width = percentage + '%';
+            
+            document.getElementById('loading-details').innerHTML = `
+                <div style="text-align: center; color: #666;">
+                    正在加载: ${current}/${total} (${percentage.toFixed(1)}%)
+                </div>
+            `;
+        }
+        
+        // 根据距离获取颜色的函数
+        function getColorByDistance(distance, minDist, maxDist) {
+            // 归一化距离到0-1区间
+            const normalized = (distance - minDist) / (maxDist - minDist);
+            
+            // 定义颜色梯度 (从蓝色到红色)
+            const colors = [
+                { r: 46, g: 134, b: 171 },   // 蓝色 - 短距离
+                { r: 162, g: 59, b: 114 },   // 紫色
+                { r: 241, g: 143, b: 1 },    // 橙色
+                { r: 199, g: 62, b: 29 },    // 红橙色
+                { r: 139, g: 0, b: 0 }       // 深红色 - 长距离
+            ];
+            
+            // 根据归一化值选择颜色
+            const colorIndex = Math.min(Math.floor(normalized * (colors.length - 1)), colors.length - 2);
+            const localNormalized = (normalized * (colors.length - 1)) - colorIndex;
+            
+            const color1 = colors[colorIndex];
+            const color2 = colors[colorIndex + 1];
+            
+            // 线性插值
+            const r = Math.round(color1.r + (color2.r - color1.r) * localNormalized);
+            const g = Math.round(color1.g + (color2.g - color1.g) * localNormalized);
+            const b = Math.round(color1.b + (color2.b - color1.b) * localNormalized);
+            
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+        
         function initMap() {
             updateStatus('🗺️ 正在初始化地图...');
             
@@ -160,7 +379,7 @@
                 // 创建地图实例
                 map = L.map('map').setView([39.9042, 116.4074], 13);
                 
-                // 添加OpenStreetMap图层
+                // 添加 OpenStreetMap图层
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -169,10 +388,13 @@
                 // 添加比例尺
                 L.control.scale().addTo(map);
                 
+                // 创建图层组用于管理所有轨迹
+                trackGroup = L.featureGroup().addTo(map);
+                
                 updateStatus('✅ 基础地图加载成功！正在加载GPX轨迹...');
                 
-                // 加载GPX文件
-                loadGPXTrack();
+                // 加载所有GPX文件
+                loadAllGPXTracks();
                 
             } catch (error) {
                 updateStatus('❌ 地图初始化失败: ' + error.message, true);
@@ -180,126 +402,162 @@
             }
         }
         
-        function loadGPXTrack() {
-            // 你的GPX文件路径
-            const gpxUrl = 'https://zhucy-99.github.io/academicpage/gpx/20241201not_outdoor_run_class_0.gpx';
+        function loadAllGPXTracks() {
+            let loadedCount = 0;
+            let successCount = 0;
+            const totalFiles = gpxFiles.length;
+            const trackDistances = [];
             
-            try {
-                const gpx = new L.GPX(gpxUrl, {
-                    async: true,
-                    marker_options: {
-                        startIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-green.png',
-                        endIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-                    },
-                    polyline_options: {
-                        color: '#e74c3c',
-                        weight: 4,
-                        opacity: 0.8,
-                        smoothFactor: 1.0
-                    }
-                });
-                
-                gpx.on('loaded', function(e) {
-                    updateStatus('🎉 GPX轨迹加载成功！');
+            updateProgress(0, totalFiles);
+            
+            // 第一遍加载：收集所有轨迹的距离信息
+            const firstPassPromises = gpxFiles.map((filename, index) => {
+                return new Promise((resolve) => {
+                    const gpxUrl = `https://zhucy-99.github.io/academicpage/gpx/${filename}`;
                     
-                    // 获取轨迹统计信息
-                    const distance = (this.get_distance() / 1000).toFixed(2);
-                    const duration = this.get_duration_string();
-                    const elevationGain = this.get_elevation_gain().toFixed(0);
-                    const elevationMax = this.get_elevation_max().toFixed(0);
-                    const elevationMin = this.get_elevation_min().toFixed(0);
-                    const startTime = this.get_start_time();
-                    const endTime = this.get_end_time();
-                    
-                    // 计算平均配速
-                    const avgPace = distance > 0 ? (this.get_duration() / 60 / parseFloat(distance)).toFixed(2) : '未知';
-                    
-                    // 显示详细信息
-                    document.getElementById('gpx-details').innerHTML = `
-                        <div class="gpx-details">
-                            <div class="detail-item">
-                                <strong>📏 总距离</strong><br>
-                                ${distance} 公里
-                            </div>
-                            <div class="detail-item">
-                                <strong>⏱️ 总时间</strong><br>
-                                ${duration}
-                            </div>
-                            <div class="detail-item">
-                                <strong>⚡ 平均配速</strong><br>
-                                ${avgPace} 分钟/公里
-                            </div>
-                            <div class="detail-item">
-                                <strong>📈 累计爬升</strong><br>
-                                ${elevationGain} 米
-                            </div>
-                            <div class="detail-item">
-                                <strong>🏔️ 最高海拔</strong><br>
-                                ${elevationMax} 米
-                            </div>
-                            <div class="detail-item">
-                                <strong>🏞️ 最低海拔</strong><br>
-                                ${elevationMin} 米
-                            </div>
-                        </div>
-                        <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 5px;">
-                            <strong>🕐 活动时间:</strong><br>
-                            开始: ${startTime ? new Date(startTime).toLocaleString('zh-CN') : '未记录'}<br>
-                            结束: ${endTime ? new Date(endTime).toLocaleString('zh-CN') : '未记录'}
-                        </div>
-                    `;
-                    
-                    // 调整地图视图到轨迹范围
-                    map.fitBounds(e.target.getBounds(), {
-                        padding: [20, 20]
+                    const gpx = new L.GPX(gpxUrl, {
+                        async: true,
+                        marker_options: {
+                            startIcon: null,  // 禁用起点标记
+                            endIcon: null,    // 禁用终点标记
+                        },
+                        polyline_options: {
+                            weight: 3,
+                            opacity: 0.8,
+                            smoothFactor: 1.0
+                        }
                     });
                     
-                    // 为轨迹添加弹出窗口
-                    this.bindPopup(`
+                    gpx.on('loaded', function(e) {
+                        const distance = this.get_distance() / 1000; // 转换为公里
+                        trackDistances.push({
+                            index: index,
+                            filename: filename,
+                            distance: distance,
+                            gpx: this
+                        });
+                        
+                        loadedCount++;
+                        successCount++;
+                        updateProgress(loadedCount, totalFiles);
+                        resolve();
+                    });
+                    
+                    gpx.on('error', function(e) {
+                        console.warn(`Failed to load ${filename}:`, e);
+                        loadedCount++;
+                        updateProgress(loadedCount, totalFiles);
+                        resolve();
+                    });
+                    
+                    // 设置超时
+                    setTimeout(() => {
+                        if (loadedCount === index) {
+                            loadedCount++;
+                            updateProgress(loadedCount, totalFiles);
+                            resolve();
+                        }
+                    }, 10000);
+                });
+            });
+            
+            // 等待所有文件加载完成
+            Promise.all(firstPassPromises).then(() => {
+                if (trackDistances.length === 0) {
+                    updateStatus('❌ 没有成功加载任何GPX轨迹', true);
+                    return;
+                }
+                
+                // 计算距离的最小值和最大值
+                const distances = trackDistances.map(t => t.distance);
+                const minDistance = Math.min(...distances);
+                const maxDistance = Math.max(...distances);
+                
+                updateStatus(`🎨 正在应用颜色渐变... (${successCount}/${totalFiles} 轨迹加载成功)`);
+                
+                // 第二遍：根据距离设置颜色并添加到地图
+                trackDistances.forEach(track => {
+                    const color = getColorByDistance(track.distance, minDistance, maxDistance);
+                    
+                    // 更新轨迹颜色
+                    track.gpx.eachLayer(function(layer) {
+                        if (layer instanceof L.Polyline) {
+                            layer.setStyle({ color: color });
+                        }
+                    });
+                    
+                    // 添加弹出窗口
+                    const duration = track.gpx.get_duration_string();
+                    const avgPace = track.distance > 0 ? (track.gpx.get_duration() / 60 / track.distance).toFixed(2) : '未知';
+                    const date = track.filename.substring(0, 8);
+                    const formattedDate = `${date.substring(0,4)}-${date.substring(4,6)}-${date.substring(6,8)}`;
+                    
+                    track.gpx.bindPopup(`
                         <div style="text-align: center; min-width: 200px;">
-                            <h4 style="margin: 0 0 10px 0; color: #e74c3c;">🏃‍♂️ 户外跑步</h4>
-                            <p><strong>距离:</strong> ${distance} km</p>
+                            <h4 style="margin: 0 0 10px 0; color: ${color};">🏃‍♂️ ${track.filename.includes('outdoor') ? '户外跑步' : '室内跑步'}</h4>
+                            <p><strong>日期:</strong> ${formattedDate}</p>
+                            <p><strong>距离:</strong> ${track.distance.toFixed(2)} km</p>
                             <p><strong>用时:</strong> ${duration}</p>
                             <p><strong>平均配速:</strong> ${avgPace} min/km</p>
-                            <p style="font-size: 0.9em; color: #666;">点击轨迹查看详情</p>
                         </div>
                     `);
-                });
-                
-                gpx.on('error', function(e) {
-                    updateStatus('❌ GPX文件加载失败', true);
-                    console.error('GPX loading error:', e);
                     
-                    document.getElementById('gpx-details').innerHTML = `
-                        <div class="error">
-                            <h4>GPX文件加载失败</h4>
-                            <p><strong>文件路径:</strong><br>
-                            <code>${gpxUrl}</code></p>
-                            
-                            <h5>可能的原因：</h5>
-                            <ul>
-                                <li><strong>CORS跨域限制:</strong> GitHub Pages可能限制了跨域文件访问</li>
-                                <li><strong>文件格式问题:</strong> GPX文件可能格式不正确</li>
-                                <li><strong>文件损坏:</strong> 文件在上传过程中可能出现问题</li>
-                            </ul>
-                            
-                            <h5>解决建议：</h5>
-                            <ul>
-                                <li>检查GPX文件格式是否正确</li>
-                                <li>尝试重新上传GPX文件</li>
-                                <li>查看浏览器开发者工具的Console和Network标签页</li>
-                            </ul>
-                        </div>
-                    `;
+                    // 添加到图层组
+                    trackGroup.addLayer(track.gpx);
+                    allTracks.push(track);
                 });
                 
-                gpx.addTo(map);
+                // 调整地图视图到所有轨迹
+                if (trackGroup.getLayers().length > 0) {
+                    map.fitBounds(trackGroup.getBounds(), {
+                        padding: [20, 20]
+                    });
+                }
                 
-            } catch (error) {
-                updateStatus('❌ GPX处理出错: ' + error.message, true);
-                console.error('GPX processing error:', error);
-            }
+                // 显示图例
+                document.getElementById('legend').style.display = 'block';
+                
+                // 显示统计信息
+                displaySummaryStats(trackDistances, minDistance, maxDistance);
+                
+                updateStatus(`🎉 成功加载 ${successCount} 条轨迹！`);
+            });
+        }
+        
+        function displaySummaryStats(tracks, minDistance, maxDistance) {
+            const totalDistance = tracks.reduce((sum, track) => sum + track.distance, 0);
+            const avgDistance = totalDistance / tracks.length;
+            const outdoorTracks = tracks.filter(t => t.filename.includes('outdoor')).length;
+            const indoorTracks = tracks.length - outdoorTracks;
+            
+            document.getElementById('summary-stats').innerHTML = `
+                <div class="summary-stats">
+                    <div class="stat-item">
+                        <strong>${tracks.length}</strong><br>
+                        <span>总轨迹数</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>${totalDistance.toFixed(1)} km</strong><br>
+                        <span>总距离</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>${avgDistance.toFixed(2)} km</strong><br>
+                        <span>平均距离</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>${outdoorTracks}</strong><br>
+                        <span>户外跑步</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>${indoorTracks}</strong><br>
+                        <span>室内跑步</span>
+                    </div>
+                    <div class="stat-item">
+                        <strong>${minDistance.toFixed(2)} - ${maxDistance.toFixed(2)} km</strong><br>
+                        <span>距离范围</span>
+                    </div>
+                </div>
+            `;
         }
         
         // 页面加载完成后初始化地图
