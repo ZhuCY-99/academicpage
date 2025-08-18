@@ -44,7 +44,7 @@
         }
         
         #map {
-            height: 600px;
+            height: 500px;
             width: 100%;
         }
         
@@ -59,70 +59,24 @@
         .status {
             font-weight: 500;
             color: #2c3e50;
-            margin-bottom: 15px;
         }
         
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #e74c3c, #f39c12);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        
-        .summary-stats {
+        .gpx-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
         
-        .stat-item {
+        .detail-item {
             background: white;
             padding: 15px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
         }
         
-        .stat-item strong {
+        .detail-item strong {
             color: #e74c3c;
-            font-size: 1.2em;
-        }
-        
-        .legend {
-            background: white;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .color-bar {
-            height: 20px;
-            background: linear-gradient(90deg, 
-                #2E86AB 0%, 
-                #A23B72 25%, 
-                #F18F01 50%, 
-                #C73E1D 75%, 
-                #8B0000 100%);
-            border-radius: 10px;
-            margin: 10px 0;
-        }
-        
-        .color-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9em;
-            color: #666;
         }
         
         .back-link {
@@ -146,7 +100,6 @@
             padding: 15px;
             border-radius: 5px;
             border: 1px solid #fecaca;
-            margin: 10px 0;
         }
         
         @media (max-width: 768px) {
@@ -158,7 +111,7 @@
                 height: 400px;
             }
             
-            .summary-stats {
+            .gpx-details {
                 grid-template-columns: 1fr;
             }
         }
@@ -178,17 +131,7 @@
     <div class="info-panel">
         <h3>轨迹信息</h3>
         <div class="status" id="status">正在加载地图...</div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progress"></div>
-        </div>
-        <div id="loading-details"></div>
-        
-        <div class="legend" id="legend" style="display: none;">
-            <h4>🎨 轨迹颜色说明</h4>
-            <p><span style="color: #e74c3c; font-weight: bold;">红色</span> - 户外跑步 | <span style="color: #3498db; font-weight: bold;">蓝色</span> - 室内跑步</p>
-        </div>
-        
-        <div id="summary-stats"></div>
+        <div id="gpx-details"></div>
     </div>
     
     <!-- 引入Leaflet JavaScript -->
@@ -198,28 +141,6 @@
     
     <script>
         let map;
-        let allTracks = [];
-        let trackGroup;
-        
-        // GPX文件列表
-        const gpxFiles = [
-            'https://zhucy-99.github.io/academicpage/gpx/20241201not_outdoor_run_class_0.gpx',
-            'https://zhucy-99.github.io/academicpage/gpx/20250124not_outdoor_run_class_0.gpx',
-            'https://zhucy-99.github.io/academicpage/gpx/20250130not_outdoor_run_class_0.gpx',
-            'https://zhucy-99.github.io/academicpage/gpx/20250306not_outdoor_run_class_0.gpx',
-            'https://zhucy-99.github.io/academicpage/gpx/20250307not_outdoor_run_class_0.gpx',
-            'https://zhucy-99.github.io/academicpage/gpx/20250308not_outdoor_run_class_0.gpx',
-            'https://zhucy-99.github.io/academicpage/gpx/20250309not_outdoor_run_class_0.gpx',
-            'https://zhucy-99.github.io/academicpage/gpx/20250310not_outdoor_run_class_0.gpx',
-            'https://zhucy-99.github.io/academicpage/gpx/20250310not_outdoor_run_class_1.gpx',
-            '20250311not_outdoor_run_class_0.gpx',
-            '20250312not_outdoor_run_class_0.gpx',
-            '20250316not_outdoor_run_class_0.gpx',
-            '20250317not_outdoor_run_class_0.gpx',
-            '20250318not_outdoor_run_class_0.gpx',
-            '20250318not_outdoor_run_class_1.gpx',
-            '20250319not_outdoor_run_class_0.gpx'
-        ];
         
         function updateStatus(message, isError = false) {
             const statusDiv = document.getElementById('status');
@@ -232,27 +153,6 @@
             }
         }
         
-        function updateProgress(current, total) {
-            const progressBar = document.getElementById('progress');
-            const percentage = (current / total) * 100;
-            progressBar.style.width = percentage + '%';
-            
-            document.getElementById('loading-details').innerHTML = `
-                <div style="text-align: center; color: #666;">
-                    正在加载: ${current}/${total} (${percentage.toFixed(1)}%)
-                </div>
-            `;
-        }
-        
-        // 获取轨迹颜色（固定颜色，区分室内外）
-        function getTrackColor(filename) {
-            if (filename.includes('outdoor')) {
-                return '#e74c3c'; // 红色 - 户外跑步
-            } else {
-                return '#3498db'; // 蓝色 - 室内跑步
-            }
-        }
-        
         function initMap() {
             updateStatus('🗺️ 正在初始化地图...');
             
@@ -260,7 +160,7 @@
                 // 创建地图实例
                 map = L.map('map').setView([39.9042, 116.4074], 13);
                 
-                // 添加 OpenStreetMap图层
+                // 添加OpenStreetMap图层
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     maxZoom: 19,
                     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -269,13 +169,10 @@
                 // 添加比例尺
                 L.control.scale().addTo(map);
                 
-                // 创建图层组用于管理所有轨迹
-                trackGroup = L.featureGroup().addTo(map);
-                
                 updateStatus('✅ 基础地图加载成功！正在加载GPX轨迹...');
                 
-                // 加载所有GPX文件
-                loadAllGPXTracks();
+                // 加载GPX文件
+                loadGPXTrack();
                 
             } catch (error) {
                 updateStatus('❌ 地图初始化失败: ' + error.message, true);
@@ -283,133 +180,126 @@
             }
         }
         
-        async function loadAllGPXTracks() {
-            let successCount = 0;
-            const totalFiles = gpxFiles.length;
-            const loadedTracks = [];
+        function loadGPXTrack() {
+            // 你的GPX文件路径
+            const gpxUrl = 'https://zhucy-99.github.io/academicpage/gpx/20241201not_outdoor_run_class_0.gpx';
             
-            updateProgress(0, totalFiles);
-            updateStatus('📡 正在逐个加载GPX轨迹，请稍候...');
-            
-            // 逐个加载文件，最稳定的方式
-            for (let i = 0; i < gpxFiles.length; i++) {
-                const filename = gpxFiles[i];
-                updateStatus(`📥 正在加载轨迹 ${i + 1}/${totalFiles}: ${filename}`);
-                
-                try {
-                    const result = await loadSingleGPX(filename, i);
-                    if (result && result.success) {
-                        loadedTracks.push(result.track);
-                        successCount++;
-                        
-                        // 立即添加到地图
-                        const color = getTrackColor(filename);
-                        result.track.gpx.eachLayer(function(layer) {
-                            if (layer instanceof L.Polyline) {
-                                layer.setStyle({ color: color });
-                            }
-                        });
-                        
-                        // 添加弹出窗口
-                        const duration = result.track.gpx.get_duration_string();
-                        const distance = result.track.distance;
-                        const avgPace = distance > 0 ? (result.track.gpx.get_duration() / 60 / distance).toFixed(2) : '未知';
-                        const date = filename.substring(0, 8);
-                        const formattedDate = `${date.substring(0,4)}-${date.substring(4,6)}-${date.substring(6,8)}`;
-                        
-                        result.track.gpx.bindPopup(`
-                            <div style="text-align: center; min-width: 200px;">
-                                <h4 style="margin: 0 0 10px 0; color: ${color};">🏃‍♂️ ${filename.includes('outdoor') ? '户外跑步' : '室内跑步'}</h4>
-                                <p><strong>日期:</strong> ${formattedDate}</p>
-                                <p><strong>距离:</strong> ${distance.toFixed(2)} km</p>
-                                <p><strong>用时:</strong> ${duration}</p>
-                                <p><strong>平均配速:</strong> ${avgPace} min/km</p>
-                            </div>
-                        `);
-                        
-                        // 添加到图层组
-                        trackGroup.addLayer(result.track.gpx);
-                        allTracks.push(result.track);
-                        
-                        // 每加载5个轨迹就调整一次视图
-                        if (successCount % 5 === 0) {
-                            map.fitBounds(trackGroup.getBounds(), { padding: [20, 20] });
-                        }
+            try {
+                const gpx = new L.GPX(gpxUrl, {
+                    async: true,
+                    marker_options: {
+                        startIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-green.png',
+                        endIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+                    },
+                    polyline_options: {
+                        color: '#e74c3c',
+                        weight: 4,
+                        opacity: 0.8,
+                        smoothFactor: 1.0
                     }
-                } catch (error) {
-                    console.warn(`Error loading ${filename}:`, error);
-                }
+                });
                 
-                updateProgress(i + 1, totalFiles);
+                gpx.on('loaded', function(e) {
+                    updateStatus('🎉 GPX轨迹加载成功！');
+                    
+                    // 获取轨迹统计信息
+                    const distance = (this.get_distance() / 1000).toFixed(2);
+                    const duration = this.get_duration_string();
+                    const elevationGain = this.get_elevation_gain().toFixed(0);
+                    const elevationMax = this.get_elevation_max().toFixed(0);
+                    const elevationMin = this.get_elevation_min().toFixed(0);
+                    const startTime = this.get_start_time();
+                    const endTime = this.get_end_time();
+                    
+                    // 计算平均配速
+                    const avgPace = distance > 0 ? (this.get_duration() / 60 / parseFloat(distance)).toFixed(2) : '未知';
+                    
+                    // 显示详细信息
+                    document.getElementById('gpx-details').innerHTML = `
+                        <div class="gpx-details">
+                            <div class="detail-item">
+                                <strong>📏 总距离</strong><br>
+                                ${distance} 公里
+                            </div>
+                            <div class="detail-item">
+                                <strong>⏱️ 总时间</strong><br>
+                                ${duration}
+                            </div>
+                            <div class="detail-item">
+                                <strong>⚡ 平均配速</strong><br>
+                                ${avgPace} 分钟/公里
+                            </div>
+                            <div class="detail-item">
+                                <strong>📈 累计爬升</strong><br>
+                                ${elevationGain} 米
+                            </div>
+                            <div class="detail-item">
+                                <strong>🏔️ 最高海拔</strong><br>
+                                ${elevationMax} 米
+                            </div>
+                            <div class="detail-item">
+                                <strong>🏞️ 最低海拔</strong><br>
+                                ${elevationMin} 米
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 5px;">
+                            <strong>🕐 活动时间:</strong><br>
+                            开始: ${startTime ? new Date(startTime).toLocaleString('zh-CN') : '未记录'}<br>
+                            结束: ${endTime ? new Date(endTime).toLocaleString('zh-CN') : '未记录'}
+                        </div>
+                    `;
+                    
+                    // 调整地图视图到轨迹范围
+                    map.fitBounds(e.target.getBounds(), {
+                        padding: [20, 20]
+                    });
+                    
+                    // 为轨迹添加弹出窗口
+                    this.bindPopup(`
+                        <div style="text-align: center; min-width: 200px;">
+                            <h4 style="margin: 0 0 10px 0; color: #e74c3c;">🏃‍♂️ 户外跑步</h4>
+                            <p><strong>距离:</strong> ${distance} km</p>
+                            <p><strong>用时:</strong> ${duration}</p>
+                            <p><strong>平均配速:</strong> ${avgPace} min/km</p>
+                            <p style="font-size: 0.9em; color: #666;">点击轨迹查看详情</p>
+                        </div>
+                    `);
+                });
                 
-                // 小延迟避免过载
-                await new Promise(resolve => setTimeout(resolve, 30));
+                gpx.on('error', function(e) {
+                    updateStatus('❌ GPX文件加载失败', true);
+                    console.error('GPX loading error:', e);
+                    
+                    document.getElementById('gpx-details').innerHTML = `
+                        <div class="error">
+                            <h4>GPX文件加载失败</h4>
+                            <p><strong>文件路径:</strong><br>
+                            <code>${gpxUrl}</code></p>
+                            
+                            <h5>可能的原因：</h5>
+                            <ul>
+                                <li><strong>CORS跨域限制:</strong> GitHub Pages可能限制了跨域文件访问</li>
+                                <li><strong>文件格式问题:</strong> GPX文件可能格式不正确</li>
+                                <li><strong>文件损坏:</strong> 文件在上传过程中可能出现问题</li>
+                            </ul>
+                            
+                            <h5>解决建议：</h5>
+                            <ul>
+                                <li>检查GPX文件格式是否正确</li>
+                                <li>尝试重新上传GPX文件</li>
+                                <li>查看浏览器开发者工具的Console和Network标签页</li>
+                            </ul>
+                        </div>
+                    `;
+                });
+                
+                gpx.addTo(map);
+                
+            } catch (error) {
+                updateStatus('❌ GPX处理出错: ' + error.message, true);
+                console.error('GPX processing error:', error);
             }
-            
-            // 最终处理
-            if (loadedTracks.length === 0) {
-                updateStatus('❌ 没有成功加载任何GPX轨迹', true);
-                document.getElementById('loading-details').innerHTML = `
-                    <div class="error">
-                        <h4>GPX文件加载失败</h4>
-                        <p>可能的原因：</p>
-                        <ul>
-                            <li>网络连接问题</li>
-                            <li>GitHub Pages访问限制</li>
-                            <li>GPX文件路径不正确</li>
-                            <li>CORS跨域限制</li>
-                        </ul>
-                        <p>请检查浏览器开发者工具的Console和Network标签页查看详细错误信息。</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // 调整地图视图到所有轨迹
-            if (trackGroup.getLayers().length > 0) {
-                map.fitBounds(trackGroup.getBounds(), { padding: [20, 20] });
-            }
-            
-            // 显示统计信息
-            displaySummaryStats(loadedTracks);
-            
-            updateStatus(`🎉 成功加载 ${successCount}/${totalFiles} 条轨迹！`);
-        }
-        
-        function displaySummaryStats(tracks) {
-            const totalDistance = tracks.reduce((sum, track) => sum + track.distance, 0);
-            const avgDistance = totalDistance / tracks.length;
-            const outdoorTracks = tracks.filter(t => t.filename.includes('outdoor')).length;
-            const indoorTracks = tracks.length - outdoorTracks;
-            
-            document.getElementById('summary-stats').innerHTML = `
-                <div class="summary-stats">
-                    <div class="stat-item">
-                        <strong>${tracks.length}</strong><br>
-                        <span>总轨迹数</span>
-                    </div>
-                    <div class="stat-item">
-                        <strong>${totalDistance.toFixed(1)} km</strong><br>
-                        <span>总距离</span>
-                    </div>
-                    <div class="stat-item">
-                        <strong>${avgDistance.toFixed(2)} km</strong><br>
-                        <span>平均距离</span>
-                    </div>
-                    <div class="stat-item">
-                        <strong>${outdoorTracks}</strong><br>
-                        <span>户外跑步</span>
-                    </div>
-                    <div class="stat-item">
-                        <strong>${indoorTracks}</strong><br>
-                        <span>室内跑步</span>
-                    </div>
-                </div>
-                <div class="legend">
-                    <h4>🎨 轨迹颜色说明</h4>
-                    <p><span style="color: #e74c3c; font-weight: bold;">红色</span> - 户外跑步 | <span style="color: #3498db; font-weight: bold;">蓝色</span> - 室内跑步</p>
-                </div>
-            `;
         }
         
         // 页面加载完成后初始化地图
