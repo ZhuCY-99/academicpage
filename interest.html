@@ -303,9 +303,9 @@
                     const gpx = new L.GPX(gpxUrl, {
                         async: true,
                         marker_options: {
-                            startIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-green.png',
-                            endIconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+                            startIcon: null,
+                            endIcon: null,
+                            wptIcons: []
                         },
                         polyline_options: {
                             color: color,
