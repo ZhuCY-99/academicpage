@@ -185,13 +185,7 @@
         
         <div class="legend" id="legend" style="display: none;">
             <h4>🎨 轨迹颜色说明</h4>
-            <p>颜色根据轨迹长度进行渐变：</p>
-            <div class="color-bar"></div>
-            <div class="color-labels">
-                <span>短距离</span>
-                <span>中等距离</span>
-                <span>长距离</span>
-            </div>
+            <p><span style="color: #e74c3c; font-weight: bold;">红色</span> - 户外跑步 | <span style="color: #3498db; font-weight: bold;">蓝色</span> - 室内跑步</p>
         </div>
         
         <div id="summary-stats"></div>
@@ -343,33 +337,13 @@
             `;
         }
         
-        // 根据距离获取颜色的函数
-        function getColorByDistance(distance, minDist, maxDist) {
-            // 归一化距离到0-1区间
-            const normalized = (distance - minDist) / (maxDist - minDist);
-            
-            // 定义颜色梯度 (从蓝色到红色)
-            const colors = [
-                { r: 46, g: 134, b: 171 },   // 蓝色 - 短距离
-                { r: 162, g: 59, b: 114 },   // 紫色
-                { r: 241, g: 143, b: 1 },    // 橙色
-                { r: 199, g: 62, b: 29 },    // 红橙色
-                { r: 139, g: 0, b: 0 }       // 深红色 - 长距离
-            ];
-            
-            // 根据归一化值选择颜色
-            const colorIndex = Math.min(Math.floor(normalized * (colors.length - 1)), colors.length - 2);
-            const localNormalized = (normalized * (colors.length - 1)) - colorIndex;
-            
-            const color1 = colors[colorIndex];
-            const color2 = colors[colorIndex + 1];
-            
-            // 线性插值
-            const r = Math.round(color1.r + (color2.r - color1.r) * localNormalized);
-            const g = Math.round(color1.g + (color2.g - color1.g) * localNormalized);
-            const b = Math.round(color1.b + (color2.b - color1.b) * localNormalized);
-            
-            return `rgb(${r}, ${g}, ${b})`;
+        // 获取轨迹颜色（固定颜色，区分室内外）
+        function getTrackColor(filename) {
+            if (filename.includes('outdoor')) {
+                return '#e74c3c'; // 红色 - 户外跑步
+            } else {
+                return '#3498db'; // 蓝色 - 室内跑步
+            }
         }
         
         function initMap() {
@@ -403,156 +377,99 @@
         }
         
         async function loadAllGPXTracks() {
-            let loadedCount = 0;
             let successCount = 0;
             const totalFiles = gpxFiles.length;
-            const trackDistances = [];
+            const loadedTracks = [];
             
             updateProgress(0, totalFiles);
-            updateStatus('📡 正在批量加载GPX轨迹，请稍候...');
+            updateStatus('📡 正在逐个加载GPX轨迹，请稍候...');
             
-            // 分批加载，每批5个文件，避免网络拥堵
-            const batchSize = 5;
-            
-            for (let i = 0; i < gpxFiles.length; i += batchSize) {
-                const batch = gpxFiles.slice(i, i + batchSize);
+            // 逐个加载文件，最稳定的方式
+            for (let i = 0; i < gpxFiles.length; i++) {
+                const filename = gpxFiles[i];
+                updateStatus(`📥 正在加载轨迹 ${i + 1}/${totalFiles}: ${filename}`);
                 
-                updateStatus(`📥 正在加载第 ${Math.floor(i/batchSize) + 1}/${Math.ceil(gpxFiles.length/batchSize)} 批轨迹...`);
-                
-                const batchPromises = batch.map((filename, batchIndex) => {
-                    const actualIndex = i + batchIndex;
-                    return loadSingleGPX(filename, actualIndex, trackDistances);
-                });
-                
-                // 等待当前批次完成
-                await Promise.allSettled(batchPromises);
-                
-                // 更新进度
-                loadedCount = Math.min(i + batchSize, gpxFiles.length);
-                updateProgress(loadedCount, totalFiles);
-                
-                // 批次间短暂延迟，避免服务器压力
-                if (i + batchSize < gpxFiles.length) {
-                    await new Promise(resolve => setTimeout(resolve, 100));
+                try {
+                    const result = await loadSingleGPX(filename, i);
+                    if (result && result.success) {
+                        loadedTracks.push(result.track);
+                        successCount++;
+                        
+                        // 立即添加到地图
+                        const color = getTrackColor(filename);
+                        result.track.gpx.eachLayer(function(layer) {
+                            if (layer instanceof L.Polyline) {
+                                layer.setStyle({ color: color });
+                            }
+                        });
+                        
+                        // 添加弹出窗口
+                        const duration = result.track.gpx.get_duration_string();
+                        const distance = result.track.distance;
+                        const avgPace = distance > 0 ? (result.track.gpx.get_duration() / 60 / distance).toFixed(2) : '未知';
+                        const date = filename.substring(0, 8);
+                        const formattedDate = `${date.substring(0,4)}-${date.substring(4,6)}-${date.substring(6,8)}`;
+                        
+                        result.track.gpx.bindPopup(`
+                            <div style="text-align: center; min-width: 200px;">
+                                <h4 style="margin: 0 0 10px 0; color: ${color};">🏃‍♂️ ${filename.includes('outdoor') ? '户外跑步' : '室内跑步'}</h4>
+                                <p><strong>日期:</strong> ${formattedDate}</p>
+                                <p><strong>距离:</strong> ${distance.toFixed(2)} km</p>
+                                <p><strong>用时:</strong> ${duration}</p>
+                                <p><strong>平均配速:</strong> ${avgPace} min/km</p>
+                            </div>
+                        `);
+                        
+                        // 添加到图层组
+                        trackGroup.addLayer(result.track.gpx);
+                        allTracks.push(result.track);
+                        
+                        // 每加载5个轨迹就调整一次视图
+                        if (successCount % 5 === 0) {
+                            map.fitBounds(trackGroup.getBounds(), { padding: [20, 20] });
+                        }
+                    }
+                } catch (error) {
+                    console.warn(`Error loading ${filename}:`, error);
                 }
+                
+                updateProgress(i + 1, totalFiles);
+                
+                // 小延迟避免过载
+                await new Promise(resolve => setTimeout(resolve, 30));
             }
             
-            // 处理加载结果
-            successCount = trackDistances.length;
-            
-            if (trackDistances.length === 0) {
+            // 最终处理
+            if (loadedTracks.length === 0) {
                 updateStatus('❌ 没有成功加载任何GPX轨迹', true);
+                document.getElementById('loading-details').innerHTML = `
+                    <div class="error">
+                        <h4>GPX文件加载失败</h4>
+                        <p>可能的原因：</p>
+                        <ul>
+                            <li>网络连接问题</li>
+                            <li>GitHub Pages访问限制</li>
+                            <li>GPX文件路径不正确</li>
+                            <li>CORS跨域限制</li>
+                        </ul>
+                        <p>请检查浏览器开发者工具的Console和Network标签页查看详细错误信息。</p>
+                    </div>
+                `;
                 return;
             }
             
-            // 计算距离的最小值和最大值
-            const distances = trackDistances.map(t => t.distance);
-            const minDistance = Math.min(...distances);
-            const maxDistance = Math.max(...distances);
-            
-            updateStatus(`🎨 正在应用颜色渐变... (${successCount}/${totalFiles} 轨迹加载成功)`);
-            
-            // 根据距离设置颜色并添加到地图
-            trackDistances.forEach(track => {
-                const color = getColorByDistance(track.distance, minDistance, maxDistance);
-                
-                // 更新轨迹颜色
-                track.gpx.eachLayer(function(layer) {
-                    if (layer instanceof L.Polyline) {
-                        layer.setStyle({ color: color });
-                    }
-                });
-                
-                // 添加弹出窗口
-                const duration = track.gpx.get_duration_string();
-                const avgPace = track.distance > 0 ? (track.gpx.get_duration() / 60 / track.distance).toFixed(2) : '未知';
-                const date = track.filename.substring(0, 8);
-                const formattedDate = `${date.substring(0,4)}-${date.substring(4,6)}-${date.substring(6,8)}`;
-                
-                track.gpx.bindPopup(`
-                    <div style="text-align: center; min-width: 200px;">
-                        <h4 style="margin: 0 0 10px 0; color: ${color};">🏃‍♂️ ${track.filename.includes('outdoor') ? '户外跑步' : '室内跑步'}</h4>
-                        <p><strong>日期:</strong> ${formattedDate}</p>
-                        <p><strong>距离:</strong> ${track.distance.toFixed(2)} km</p>
-                        <p><strong>用时:</strong> ${duration}</p>
-                        <p><strong>平均配速:</strong> ${avgPace} min/km</p>
-                    </div>
-                `);
-                
-                // 添加到图层组
-                trackGroup.addLayer(track.gpx);
-                allTracks.push(track);
-            });
-            
             // 调整地图视图到所有轨迹
             if (trackGroup.getLayers().length > 0) {
-                map.fitBounds(trackGroup.getBounds(), {
-                    padding: [20, 20]
-                });
+                map.fitBounds(trackGroup.getBounds(), { padding: [20, 20] });
             }
             
-            // 显示图例
-            document.getElementById('legend').style.display = 'block';
-            
             // 显示统计信息
-            displaySummaryStats(trackDistances, minDistance, maxDistance);
+            displaySummaryStats(loadedTracks);
             
-            updateStatus(`🎉 成功加载 ${successCount} 条轨迹！`);
+            updateStatus(`🎉 成功加载 ${successCount}/${totalFiles} 条轨迹！`);
         }
         
-        function loadSingleGPX(filename, index, trackDistances) {
-            return new Promise((resolve) => {
-                const gpxUrl = `https://zhucy-99.github.io/academicpage/gpx/${filename}`;
-                
-                const gpx = new L.GPX(gpxUrl, {
-                    async: true,
-                    marker_options: {
-                        startIcon: null,  // 禁用起点标记
-                        endIcon: null,    // 禁用终点标记
-                    },
-                    polyline_options: {
-                        weight: 3,
-                        opacity: 0.8,
-                        smoothFactor: 1.0
-                    }
-                });
-                
-                let resolved = false;
-                
-                gpx.on('loaded', function(e) {
-                    if (!resolved) {
-                        const distance = this.get_distance() / 1000; // 转换为公里
-                        trackDistances.push({
-                            index: index,
-                            filename: filename,
-                            distance: distance,
-                            gpx: this
-                        });
-                        resolved = true;
-                        resolve('success');
-                    }
-                });
-                
-                gpx.on('error', function(e) {
-                    if (!resolved) {
-                        console.warn(`Failed to load ${filename}:`, e);
-                        resolved = true;
-                        resolve('error');
-                    }
-                });
-                
-                // 设置超时 (8秒)
-                setTimeout(() => {
-                    if (!resolved) {
-                        console.warn(`Timeout loading ${filename}`);
-                        resolved = true;
-                        resolve('timeout');
-                    }
-                }, 8000);
-            });
-        }
-        
-        function displaySummaryStats(tracks, minDistance, maxDistance) {
+        function displaySummaryStats(tracks) {
             const totalDistance = tracks.reduce((sum, track) => sum + track.distance, 0);
             const avgDistance = totalDistance / tracks.length;
             const outdoorTracks = tracks.filter(t => t.filename.includes('outdoor')).length;
@@ -580,10 +497,10 @@
                         <strong>${indoorTracks}</strong><br>
                         <span>室内跑步</span>
                     </div>
-                    <div class="stat-item">
-                        <strong>${minDistance.toFixed(2)} - ${maxDistance.toFixed(2)} km</strong><br>
-                        <span>距离范围</span>
-                    </div>
+                </div>
+                <div class="legend">
+                    <h4>🎨 轨迹颜色说明</h4>
+                    <p><span style="color: #e74c3c; font-weight: bold;">红色</span> - 户外跑步 | <span style="color: #3498db; font-weight: bold;">蓝色</span> - 室内跑步</p>
                 </div>
             `;
         }
