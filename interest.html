@@ -97,9 +97,9 @@
 </head>
 <body>
     <div class="header">
-        <h1>🏃‍♂️ 我的户外轨迹</h1>
-        <p>记录每一次奔跑的足迹</p>
-        <a href="https://zhucy-99.github.io/academicpage/" class="back-link">← 返回主页</a>
+        <h1>🏃‍♂️ My Running Tracks</h1>
+        <p>Recording every running footprint</p>
+        <a href="https://zhucy-99.github.io/academicpage/" class="back-link">← Back to Home</a>
     </div>
     
     <div class="map-container">
@@ -107,8 +107,8 @@
     </div>
     
     <div class="info-panel">
-        <h3>轨迹信息</h3>
-        <div class="status" id="status">正在加载地图...</div>
+        <h3>Track Information</h3>
+        <div class="status" id="status">Loading map...</div>
     </div>
     
     <!-- 引入Leaflet JavaScript -->
@@ -261,27 +261,28 @@
         }
         
         function initMap() {
-            updateStatus('🗺️ 正在初始化地图...');
+            updateStatus('🗺️ Initializing map...');
             
             try {
-                // 创建地图实例
+                // Create map instance
                 map = L.map('map').setView([39.9042, 116.4074], 13);
                 
-                // 添加OpenStreetMap图层
-                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-    }).addTo(map);
+                // Add OpenStreetMap layer
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
                 
-                // 添加比例尺
+                // Add scale control
                 L.control.scale().addTo(map);
                 
-                updateStatus('✅ 基础地图加载成功！正在加载GPX轨迹...');
+                updateStatus('✅ Base map loaded successfully! Loading GPX tracks...');
                 
-                // 加载所有GPX文件
+                // Load all GPX files
                 loadAllGPXTracks();
                 
             } catch (error) {
-                updateStatus('❌ 地图初始化失败: ' + error.message, true);
+                updateStatus('❌ Map initialization failed: ' + error.message, true);
                 console.error('Map initialization error:', error);
             }
         }
@@ -290,7 +291,7 @@
             let loadedCount = 0;
             let successCount = 0;
             
-            updateStatus(`📥 开始加载 ${gpxFiles.length} 条轨迹...`);
+            updateStatus(`📥 Starting to load ${gpxFiles.length} tracks...`);
             
             gpxFiles.forEach((filename, index) => {
                 const gpxUrl = `https://zhucy-99.github.io/academicpage/gpx/${filename}`;
@@ -301,11 +302,20 @@
                         async: true,
                         parseElements: ['track'],
                         marker_options: {
-                            startIcon: null,
-                            endIcon: null,
+                            startIcon: L.divIcon({
+                                className: 'start-marker',
+                                html: '<div style="background-color: #f39c12; width: 8px; height: 8px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>',
+                                iconSize: [12, 12],
+                                iconAnchor: [6, 6]
+                            }),
+                            endIcon: L.divIcon({
+                                className: 'end-marker',
+                                html: '<div style="background-color: #e74c3c; width: 8px; height: 8px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>',
+                                iconSize: [12, 12],
+                                iconAnchor: [6, 6]
+                            }),
                             shadowUrl: null,
-                            wptIcons: null,
-                            pointMatchers: []
+                            wptIcons: null
                         },
                         polyline_options: {
                             color: '#e74c3c',
@@ -319,36 +329,25 @@
                         successCount++;
                         loadedCount++;
                         
-                        // 手动移除所有标记
-                        this.eachLayer(function(layer) {
-                            if (layer instanceof L.Marker) {
-                                this.removeLayer(layer);
-                            }
-                        });
-                        
                         // 收集边界用于最终的地图视图调整
                         allBounds.push(e.target.getBounds());
                         
-                        // 获取轨迹统计信息
-                        const distance = (this.get_distance() / 1000).toFixed(2);
-                        const duration = this.get_duration_string();
-                        const avgPace = distance > 0 ? (this.get_duration() / 60 / parseFloat(distance)).toFixed(2) : '未知';
+                        // Get track statistics
+                        const distance = this.get_distance ? (this.get_distance() / 1000).toFixed(2) : 'Unknown';
                         
-                        // 设置弹出窗口
+                        // Set popup window
                         this.bindPopup(`
                             <div style="text-align: center; min-width: 200px;">
-                                <h4 style="margin: 0 0 10px 0; color: #e74c3c;">🏃‍♂️ 跑步轨迹</h4>
-                                <p><strong>日期:</strong> ${displayDate}</p>
-                                <p><strong>距离:</strong> ${distance} km</p>
-                                <p><strong>用时:</strong> ${duration}</p>
-                                <p><strong>配速:</strong> ${avgPace} min/km</p>
+                                <h4 style="margin: 0 0 10px 0; color: #e74c3c;">🏃‍♂️ Running Track</h4>
+                                <p><strong>Date:</strong> ${displayDate}</p>
+                                <p><strong>Distance:</strong> ${distance} km</p>
                             </div>
                         `);
                         
-                        // 更新进度
-                        updateStatus(`📊 已加载 ${successCount}/${gpxFiles.length} 条轨迹`);
+                        // Update progress
+                        updateStatus(`📊 Loaded ${successCount}/${gpxFiles.length} tracks`);
                         
-                        // 如果是最后一个文件加载完成
+                        // If this is the last file loaded
                         if (loadedCount === gpxFiles.length) {
                             finishLoading();
                         }
@@ -358,7 +357,7 @@
                         loadedCount++;
                         console.error(`Failed to load ${filename}:`, e);
                         
-                        updateStatus(`⚠️ 已处理 ${loadedCount}/${gpxFiles.length} 个文件，成功 ${successCount} 条`);
+                        updateStatus(`⚠️ Processed ${loadedCount}/${gpxFiles.length} files, ${successCount} successful`);
                         
                         if (loadedCount === gpxFiles.length) {
                             finishLoading();
@@ -379,9 +378,9 @@
         }
         
         function finishLoading() {
-            updateStatus(`🎉 加载完成！成功显示了 ${allBounds.length} 条轨迹`);
+            updateStatus(`🎉 Loading complete! Successfully displayed ${allBounds.length} tracks`);
             
-            // 调整地图视图到所有轨迹
+            // Adjust map view to show all tracks
             if (allBounds.length > 0) {
                 const group = new L.featureGroup();
                 allBounds.forEach(bounds => {
@@ -392,12 +391,12 @@
             }
         }
         
-        // 页面加载完成后初始化地图
+        // Load page and initialize map
         window.addEventListener('load', function() {
             setTimeout(initMap, 500);
         });
         
-        // 备用初始化方法
+        // Backup initialization method
         document.addEventListener('DOMContentLoaded', function() {
             if (document.readyState === 'complete') {
                 setTimeout(initMap, 1000);
