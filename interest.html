@@ -97,8 +97,8 @@
 </head>
 <body>
     <div class="header">
-        <h1>🏃‍♂️ My Cycling Tracks</h1>
-        <p>Recording every cycling footprint</p>
+        <h1>🏃‍♂️ My Activity Tracks</h1>
+        <p>Recording every outdoor adventure</p>
         <a href="https://zhucy-99.github.io/academicpage/" class="back-link">← Back to Home</a>
     </div>
     
@@ -245,15 +245,36 @@
         }
         
         function parseFileName(filename) {
-            const match = filename.match(/(\d{8})/);
+            const match = filename.match(/(\d{8})(outdoor|not_outdoor)_run_class_(\d+)\.gpx/);
             if (match) {
                 const date = match[1];
+                const type = match[2];
+                const classNum = match[3];
+                
                 const year = date.substring(0, 4);
                 const month = date.substring(4, 6);
                 const day = date.substring(6, 8);
-                return `${year}-${month}-${day}`;
+                
+                // 根据文件名确定运动类型
+                const activityType = type === 'outdoor' ? 'hiking' : 'cycling';
+                const activityIcon = type === 'outdoor' ? '🥾' : '🚴‍♂️';
+                const activityName = type === 'outdoor' ? 'Hiking' : 'Cycling';
+                
+                return {
+                    filename,
+                    date: `${year}-${month}-${day}`,
+                    year,
+                    month,
+                    day,
+                    type,
+                    classNum,
+                    activityType,
+                    activityIcon,
+                    activityName,
+                    isOutdoor: type === 'outdoor'
+                };
             }
-            return filename;
+            return null;
         }
         
         function getTrackColor() {
@@ -268,10 +289,9 @@
                 map = L.map('map').setView([39.9042, 116.4074], 13);
                 
                 // Add OpenStreetMap layer
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(map);
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    }).addTo(map);
                 
                 // Add scale control
                 L.control.scale().addTo(map);
@@ -294,8 +314,13 @@
             updateStatus(`📥 Starting to load ${gpxFiles.length} tracks...`);
             
             gpxFiles.forEach((filename, index) => {
+                const trackInfo = parseFileName(filename);
+                if (!trackInfo) {
+                    loadedCount++;
+                    return;
+                }
+                
                 const gpxUrl = `https://zhucy-99.github.io/academicpage/gpx/${filename}`;
-                const displayDate = parseFileName(filename);
                 
                 try {
                     const gpx = new L.GPX(gpxUrl, {
@@ -338,8 +363,8 @@
                         // Set popup window
                         this.bindPopup(`
                             <div style="text-align: center; min-width: 200px;">
-                                <h4 style="margin: 0 0 10px 0; color: #e74c3c;">🏃‍♂️ Cycling Track</h4>
-                                <p><strong>Date:</strong> ${displayDate}</p>
+                                <h4 style="margin: 0 0 10px 0; color: #e74c3c;">${trackInfo.activityIcon} ${trackInfo.activityName}</h4>
+                                <p><strong>Date:</strong> ${trackInfo.date}</p>
                                 <p><strong>Distance:</strong> ${distance} km</p>
                             </div>
                         `);
