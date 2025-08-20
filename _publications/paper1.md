@@ -1,7 +1,7 @@
 ---
 title: "The Evolution and Driving Forces of the Manufacturing Industry"
 collection: publications
-category: [Urban Big Data]
+category: Urban Big Data
 permalink: /publication/paper1
 excerpt: "This study applies an NLP-based classification method with hotspot detection and driving force analysis to Jiangsu’s manufacturing during the “13th Five-Year Plan.” Results show key drivers include industrial base, proximity to towns and railways, population, and GDP per capita.
 <br/><img src='https://ZhuCY-99.github.io/academicpage/images/paper3Fig1.jpg'>"
