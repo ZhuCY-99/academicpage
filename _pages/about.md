@@ -21,12 +21,14 @@ Prior to joining the WLAN Lab, I earned my Master’s degree in Urban Planning f
 
 Publications
 ======
+### [Identification and Evaluation of Green Spaces and Service Supply-demand in Urban Central Areas](https://zhucy-99.github.io/academicpage//publication/paper5)
+Published in Urban Development Studies 城市发展研究 (in Chinese), 2024
 
 ### [Towards a Green Equal City: Measuring and matching the supply-demand of green exposure in urban center](https://zhucy-99.github.io/academicpage//publication/paper2)
 Published in Journal of Environmental Management, 2024
 
 ### [Healthy Street Environment Based on Sports Tracking Data(in Chinese)](https://zhucy-99.github.io/academicpage//publication/paper4)
-Published in Planners(in Chinese), 2023
+Published in Planners 规划师 (in Chinese), 2023
 
 ### [China’s Gridded Manufacturing Dataset](https://zhucy-99.github.io/academicpage//publication/paper1)
 Published in Scientific Data, 2022
