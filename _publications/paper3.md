@@ -9,7 +9,6 @@ date: 2023-05-06
 venue: 'Planners 规划师 (in Chinese)'
 slidesurl: 
 paperurl: 'https://ZhuCY-99.github.io/academicpage/files/PhysicalActivity_Planners_inChinese.pdf'
-tags: PhysicalActivities
 citation: #'Zhu, C., Zheng, S., Zhen, R., Rong, Q. (2023). The Optimization of Healthy Street Environment Based on Sports Tracking Data: A Case Study of Beijing Core Area. Planners, 39(07), 72-79.(in Chinese)'
 ---
 
