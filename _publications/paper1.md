@@ -9,6 +9,7 @@ date: 2021-08-18
 venue: 'PLOS ONE'
 slidesurl: 
 paperurl: 'https://ZhuCY-99.github.io/academicpage/files/JiangsuManufacturing_PLOSONE.pdf'
+tags: Urban Big Data
 citation: #'Shen, S., Zhu, C., Fan, C., Wu, C., Huang, X., & Zhou, L. (2021). Research on the evolution and driving forces of the manufacturing industry during the “13th five-year plan” period in Jiangsu province of China based on natural language processing. PLoS One, 16(8), e0256162.'
 ---
 
