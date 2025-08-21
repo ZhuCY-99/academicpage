@@ -9,6 +9,7 @@ date: 2022-12-02
 venue: 'Scientific Data'
 slidesurl: 
 paperurl: 'https://ZhuCY-99.github.io/academicpage/files/ChinaManufacturingGrid_SDATA.pdf'
+tags: UrbanBigData NLP
 citation: #'Fan, C., Huang, X., Zhou, L., Gai, Z., Zhu, C., & Zhang, H. (2022). China’s Gridded Manufacturing Dataset. Scientific Data, 9(1), 742.'
 ---
 
