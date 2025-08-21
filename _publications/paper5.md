@@ -9,6 +9,7 @@ date: 2024-08-26
 venue: 'Urban Development Studies 城市发展研究 (in Chinese)'
 slidesurl: 
 paperurl: 'https://ZhuCY-99.github.io/academicpage/files/paper5.pdf'
+tags: UrbanNature
 citation: #'Zhu, C., Zheng, S., Yang, S., Dong, J., Ma, M., Zhang, S., . . . Han, B. (2024). Towards a Green Equal City: Measuring and matching the supply-demand of green exposure in urban center. Journal of Environmental Management, 365, 121510.'
 ---
 
