@@ -1,5 +1,5 @@
 ---
-title: "Identification and Evaluation of Green Spaces and Service Supply-demand in Urban Central Areas"
+title: "Identification and Evaluation of Green Spaces and Service Supply-demand in Urban Central Areas(in Chinese)"
 collection: publications
 category: manuscripts
 permalink: /publication/paper5
