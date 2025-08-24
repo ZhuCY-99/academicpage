@@ -36,3 +36,22 @@ Published in Scientific Data, 2022
 ### [The Evolution and Driving Forces of the Manufacturing Industry](https://zhucy-99.github.io/academicpage//publication/paper3)
 Published in PLOS ONE, 2021
 
+---
+
+<div style="text-align: center; margin-top: 30px; padding: 15px; background-color: #f8f9fa; border-radius: 8px; color: #666;">
+  <h4 style="margin-bottom: 10px; color: #333;">访问统计 | Visit Statistics</h4>
+  <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+    <span id="busuanzi_container_site_pv" style="display: inline-flex; align-items: center;">
+      <i class="fas fa-eye" style="margin-right: 5px;"></i>
+      总访问量 | Total Views: <strong id="busuanzi_value_site_pv" style="margin-left: 5px; color: #007bff;"></strong>
+    </span>
+    <span id="busuanzi_container_site_uv" style="display: inline-flex; align-items: center;">
+      <i class="fas fa-users" style="margin-right: 5px;"></i>
+      访客数 | Visitors: <strong id="busuanzi_value_site_uv" style="margin-left: 5px; color: #28a745;"></strong>
+    </span>
+  </div>
+  <div style="margin-top: 10px; font-size: 12px; color: #888;">
+    <i class="fas fa-chart-line" style="margin-right: 3px;"></i>
+    Statistics powered by <a href="http://busuanzi.ibruce.info/" target="_blank" style="color: #6c757d; text-decoration: none;">不蒜子</a>
+  </div>
+</div>
