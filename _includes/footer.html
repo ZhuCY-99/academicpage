@@ -17,21 +17,3 @@
   </ul>
 </div>
 {% endif %}
-
-<!-- 访客统计 -->
-<div class="page__footer-visitor-stats" style="text-align: center; margin: 15px 0; color: #888; font-size: 14px;">
-  <span id="busuanzi_container_site_pv">
-    <i class="fa fa-eye" aria-hidden="true"></i> 总访问量: <span id="busuanzi_value_site_pv"></span> 次
-  </span>
-  <span style="margin-left: 20px;" id="busuanzi_container_site_uv">
-    <i class="fa fa-users" aria-hidden="true"></i> 访客数: <span id="busuanzi_value_site_uv"></span> 人
-  </span>
-</div>
-
-<div class="page__footer-copyright">
-  &copy; {{ site.time | date: '%Y' }} {{ site.name | default: site.title }}, {{ site.data.ui-text[site.locale].powered_by | default: "Powered by" }} <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.<br />
-  Site last updated {{ "now" | date: '%Y-%m-%d' %}}
-</div>
-
-<!-- 不蒜子统计脚本 -->
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
