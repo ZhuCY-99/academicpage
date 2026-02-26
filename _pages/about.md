@@ -21,7 +21,7 @@ Prior to joining the WLAN Lab, I earned my Master’s degree in Urban Planning f
 
 Publications
 ======
-### [Quantifying cultural ecosystem services in urban parks using social media and large language models: Insights for Beijing’s Garden City initiative](https://zhucy-99.github.io/academicpage//publication/paper5)
+### [Quantifying cultural ecosystem services in urban parks using social media and large language models: Insights for Beijing’s Garden City initiative](https://zhucy-99.github.io/academicpage//publication/paper6)
 Published in Urban Forestry & Urban Greening, 2026
 
 ### [Identification and Evaluation of Green Spaces and Service Supply-demand in Urban Central Areas](https://zhucy-99.github.io/academicpage//publication/paper5)
