@@ -3,7 +3,7 @@ title: "Quantifying cultural ecosystem services in urban parks using social medi
 collection: publications
 category: manuscripts
 permalink: /publication/paper6
-excerpt: "This study integrates social media data with large language models to efficiently and accurately quantify cultural ecosystem services and public sentiment in Beijing's urban parks, providing an innovative assessment method and actionable insights for park management in high-density cities."
+excerpt: "This study integrates social media data with large language models to efficiently and accurately quantify cultural ecosystem services and public sentiment in Beijing's urban parks, providing an innovative assessment method and actionable insights for park management in high-density cities.
 <br/><img src='https://ZhuCY-99.github.io/academicpage/images/paper6Fig1.jpg'>"
 date: 2026-01-08
 venue: 'Urban Forestry & Urban Greening'
